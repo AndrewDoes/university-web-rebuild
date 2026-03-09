@@ -1,26 +1,86 @@
 @import "tailwindcss";
 
 :root {
+  /* --- CORE PALETTE (LIGHT) --- */
   --background: #ffffff;
   --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Nav Background */
+  --nav-background: #ffffff;
+  --nav-foreground: #171717;
+
+  /* Brand Identity - Shifted to Prestigious Blue */
+  --primary: #1e3a8a;
+  /* Deep Navy Blue */
+  --primary-foreground: #ffffff;
+
+  --secondary: #f1b400;
+  /* Keeping Gold as the academic accent */
+  --secondary-foreground: #171717;
+
+  /* UI Surface Utilities */
+  --border: #e5e7eb;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* --- CORE PALETTE (DARK) --- */
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Nav Background */
+    --nav-background: #343434;
+    --nav-foreground: #e0e0e0;
+
+    /* Adjusted Blue for Dark Contrast */
+    --primary: #4d82d9;
+    --card: #121212;
+    --card-foreground: #ededed;
+    --border: #262626;
+    --muted: #18181b;
+    --muted-foreground: #a1a1aa;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  /* Map standard CSS variables to Tailwind tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-nav-background: var(--nav-background);
+  --color-nav-foreground: var(--nav-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    scrollbar-width: thin;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    @apply antialiased transition-colors duration-300;
+  }
+
+}
+
+/* Reusable UI Utilities */
+@utility glass-overlay {
+  @apply bg-black/40 backdrop-blur-md border border-white/10;
 }
