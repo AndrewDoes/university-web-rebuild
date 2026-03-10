@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
             ]
         },
         { label: 'Berita', href: '/berita' },
-        { label: 'Kontak Kami', href: '/kontak' },
+        { label: 'Kegiatan', href: '/kegiatan' },
     ];
 
     return (
@@ -198,9 +198,12 @@ const Navbar: React.FC = () => {
 
                     {/* Desktop Actions */}
                     <div className="hidden lg:flex items-center space-x-4">
-                        <button className="text-muted-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer p-2">
-                            <Search size={20} />
-                        </button>
+                        <a
+                            href="/contact"
+                            className="text-foreground hover:text-primary font-bold text-[13px] uppercase tracking-wide transition-colors flex items-center no-underline"
+                        >
+                            KONTAK KAMI
+                        </a>
                         <a
                             href="/login"
                             className="bg-primary text-primary-foreground px-8 py-2.5 rounded-sm hover:opacity-90 transition-all font-bold text-xs tracking-widest uppercase shadow-sm hover:shadow-md active:scale-95 inline-flex items-center no-underline"

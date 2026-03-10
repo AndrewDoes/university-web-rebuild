@@ -53,7 +53,7 @@ const PengakuanImanPage: React.FC = () => {
     return (
         <div className="bg-background min-h-screen">
             {/* --- HERO HEADER --- */}
-            <div className="relative bg-primary py-24 lg:py-32 overflow-hidden">
+            <div className="relative bg-primary py-24 lg:py-32 overflow-hidden top-20">
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
                     <div className="grid grid-cols-12 h-full w-full">
                         {[...Array(12)].map((_, i) => (

@@ -66,7 +66,7 @@ const YayasanPage: React.FC = () => {
             </div>
 
             {/* --- SECTION: BOARD OF TRUSTEES (PEMBINA) --- */}
-            <section className="py-24 bg-card border-b border-border">
+            <section className="pb-24 bg-card border-b border-border pt-44">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row gap-16 items-start">
                         <div className="lg:w-1/3 space-y-6">

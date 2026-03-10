@@ -93,7 +93,7 @@ const MarsSTTBPage: React.FC = () => {
     return (
         <div className="bg-background min-h-screen">
             {/* --- HERO HEADER --- */}
-            <div className="relative bg-primary py-24 lg:py-32 overflow-hidden">
+            <div className="relative bg-primary py-24 lg:py-32 overflow-hidden top-20">
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
                     <div className="grid grid-cols-12 h-full w-full">
                         {[...Array(12)].map((_, i) => (
@@ -114,7 +114,7 @@ const MarsSTTBPage: React.FC = () => {
             </div>
 
             {/* --- AUDIO PLAYER SECTION --- */}
-            <section className="py-12 bg-muted/50 border-b border-border">
+            <section className="py-12 bg-muted/50 border-b border-border mt-20">
                 <div className="container mx-auto px-6">
                     <div className="max-w-5xl mx-auto bg-primary rounded-sm p-8 md:p-12 shadow-2xl relative overflow-hidden group">
                         <Music className="absolute -right-10 -bottom-10 text-white/5 w-64 h-64 rotate-12" />
