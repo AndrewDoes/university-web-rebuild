@@ -27,6 +27,30 @@ const eventsData = [
         time: "15:30 - 18:00",
         location: "Jl. Dr Djunjunan 105",
         image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+        id: 4,
+        title: "Webinar Series M.Pd.K.",
+        date: "Mar 11, 2026",
+        time: "17:00 - 19:00",
+        location: "STTB Zoom 1",
+        image: "https://images.unsplash.com/photo-1591115765373-520b7a21769b?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+        id: 5,
+        title: "CHRISTIAN BIOETHICS SYMPOSIUM END-OF-LIFE",
+        date: "Apr 18, 2026",
+        time: "09:00 - 16:00",
+        location: "Jl. Dr Djunjunan 105",
+        image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+        id: 6,
+        title: "Preparing for Leadership Transition & Discipleship",
+        date: "Apr 24 - 25, 2026",
+        time: "15:30 - 18:00",
+        location: "Jl. Dr Djunjunan 105",
+        image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop"
     }
 ];
 

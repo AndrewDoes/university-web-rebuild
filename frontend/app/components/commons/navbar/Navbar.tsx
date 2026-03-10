@@ -71,9 +71,10 @@ const Navbar: React.FC = () => {
             children: [
                 { label: 'Sejarah STTB', href: '/profil/sejarah' },
                 { label: 'Visi & Misi', href: '/profil/visi-misi' },
-                { label: 'Struktur Organisasi', href: '/profil/struktur' },
-                { label: 'Fasilitas Kampus', href: '/profil/fasilitas' },
-                { label: 'Dosen & Staf', href: '/profil/dosen' },
+                { label: 'Mars STTB', href: '/profil/mars-sttb' },
+                { label: 'Pengakuan Iman', href: '/profil/pengakuan-iman' },
+                { label: 'Dewan Dosen', href: '/profil/dewan-dosen' },
+                { label: 'Yayasan', href: '/profil/yayasan' },
             ]
         },
         {
