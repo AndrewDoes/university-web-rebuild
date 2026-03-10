@@ -14,37 +14,23 @@ const Navbar: React.FC = () => {
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [currentTime, setCurrentTime] = useState<string>('');
     const [currentDate, setCurrentDate] = useState<string>('');
+    const [isMounted, setIsMounted] = useState(false);
 
     function getDayInString(day: number) {
         switch (day) {
-            case 1:
-                return "Monday"
-                break;
-            case 2:
-                return "Tuesday"
-                break;
-            case 3:
-                return "Wednesday"
-                break;
-            case 4:
-                return "Thursday"
-                break;
-            case 5:
-                return "Friday"
-                break;
-            case 6:
-                return "Saturday"
-                break;
-            case 7:
-                return "Sunday"
-                break;
-            default:
-                break;
+            case 0: return "Sunday";
+            case 1: return "Monday";
+            case 2: return "Tuesday";
+            case 3: return "Wednesday";
+            case 4: return "Thursday";
+            case 5: return "Friday";
+            case 6: return "Saturday";
+            default: return "";
         }
     }
 
-    // Handle scroll effect for sticky header
     useEffect(() => {
+        setIsMounted(true);
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
@@ -52,21 +38,22 @@ const Navbar: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Real-time clock logic
     useEffect(() => {
         const updateDateAndClock = () => {
             const now = new Date();
-            const day = getDayInString(now.getDay());
+            const dayStr = getDayInString(now.getDay());
             const date = now.getDate();
-            const month = now.getMonth();
+            const month = now.getMonth() + 1;
             const year = now.getFullYear();
-            const today = day + ', ' + date + '-' + month + '-' + year;
+
+            const today = `${dayStr}, ${date}-${month < 10 ? `0${month}` : month}-${year}`;
             const timeString = now.toLocaleTimeString('id-ID', {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
                 hour12: false
             });
+
             setCurrentDate(today);
             setCurrentTime(timeString);
         };
@@ -127,7 +114,7 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <header className="fixed w-full z-50 transition-all duration-300">
+        <header className="fixed w-full top-0 left-0 z-50 transition-all duration-300">
             {/* --- TOP BAR --- */}
             <div className={`bg-primary text-primary-foreground py-2 transition-all duration-300 ${scrolled ? 'h-0 opacity-0 overflow-hidden' : 'h-auto opacity-100'}`}>
                 <div className="container mx-auto px-6 flex justify-center md:justify-between items-center text-[11px] font-medium tracking-wide">
@@ -140,25 +127,29 @@ const Navbar: React.FC = () => {
                         </a>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <div className="hidden md:flex items-center space-x-3 pr-4 border-r border-border/20">
-                            {currentDate}
-                        </div>
-                        <div className="flex items-center bg-white/5 md:border md:border-border px-3 py-0.5 rounded-full text-secondary">
-                            <Clock size={12} className="mr-1.5 animate-pulse" />
-                            <span className="font-mono tabular-nums">{currentTime}</span>
-                        </div>
+                        {isMounted && (
+                            <>
+                                <div className="hidden md:flex items-center space-x-3 pr-4 border-r border-white/20">
+                                    {currentDate}
+                                </div>
+                                <div className="flex items-center bg-white/5 md:border md:border-border px-3 py-0.5 rounded-full text-secondary">
+                                    <Clock size={12} className="mr-1.5 animate-pulse" />
+                                    <span className="font-mono tabular-nums">{currentTime}</span>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
 
             {/* --- MAIN NAVIGATION --- */}
-            <nav className={`transition-all duration-300 relative z-50 ${scrolled ? 'bg-background/95 backdrop-blur-md shadow-lg py-2' : 'bg-background py-4'}`}>
+            <nav className={`transition-all duration-300 relative w-full ${scrolled ? 'bg-background/95 backdrop-blur-md shadow-lg py-2' : 'bg-background py-4'}`}>
                 <div className="container mx-auto px-6 flex justify-between items-center relative z-50">
                     {/* Logo Area */}
                     <a href="/" className="flex items-center group no-underline shrink-0">
                         <div className="flex flex-col">
                             <span className="text-xl md:text-2xl font-bold tracking-tighter text-primary group-hover:opacity-80 transition-opacity uppercase">STT Bandung</span>
-                            <span className="text-[9px] uppercase tracking-[0.25em] font-bold text-muted-foreground leading-tight">Sekolah Tinggi Teologi</span>
+                            <span className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] sm:tracking-[0.25em] font-bold text-muted-foreground leading-tight">Sekolah Tinggi Teologi</span>
                         </div>
                     </a>
 
@@ -226,10 +217,10 @@ const Navbar: React.FC = () => {
                     </button>
                 </div>
 
-                {/* Mobile Menu - Transitioning from top to bottom behind the main nav */}
+                {/* Mobile Menu */}
                 <div
                     className={`xl:hidden absolute top-full left-0 w-full bg-background z-40 shadow-2xl overflow-y-auto transition-all duration-500 ease-in-out transform origin-top ${isOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-10 opacity-0 pointer-events-none'}`}
-                    style={{ maxHeight: 'calc(100vh - 100%)' }}
+                    style={{ maxHeight: 'calc(100vh - 80px)' }}
                 >
                     <div className="p-6 space-y-2 pb-32">
                         <div className="flex justify-between items-center mb-4 pb-2 border-b border-border">
@@ -262,7 +253,7 @@ const Navbar: React.FC = () => {
                                 </div>
 
                                 {link.children && activeDropdown === link.label && (
-                                    <div className="bg-muted rounded-lg mb-4 py-2 animate-in slide-in-from-top-2 duration-200">
+                                    <div className="bg-muted rounded-lg mb-4 py-2">
                                         {link.children.map(child => (
                                             <a
                                                 key={child.label}

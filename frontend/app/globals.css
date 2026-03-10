@@ -20,7 +20,7 @@
 
   /* UI Surface Utilities */
   --border: #e5e7eb;
-  --card: #ffffff;
+  --card: #efefef;
   --card-foreground: #171717;
   --muted: #f4f4f5;
   --muted-foreground: #71717a;
@@ -37,8 +37,8 @@
     --nav-foreground: #e0e0e0;
 
     /* Adjusted Blue for Dark Contrast */
-    --primary: #4d82d9;
-    --card: #121212;
+    --primary: #0796c8;
+    --card: #2d2d2d;
     --card-foreground: #ededed;
     --border: #262626;
     --muted: #18181b;
