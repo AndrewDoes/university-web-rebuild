@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="STTB.Commons/STTB.Commons.csproj" />
-  <Project Path="STTB.Contracts/STTB.Contracts.csproj" />
-  <Project Path="STTB.Entities/STTB.Entities.csproj" />
-  <Project Path="STTB.Hangfire/STTB.Hangfire.csproj" />
-  <Project Path="STTB.WebAPI/STTB.WebAPI.csproj" />
-</Solution>

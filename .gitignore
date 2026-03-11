@@ -39,5 +39,35 @@ next-env.d.ts
 .vs/
 
 #--- IGNORE ENTIRE BACKEND ---
+
+#Abaikan seluruh folder backend agar tidak mengganggu Git
+
 STTB/
 **/STTB/
+
+#--- VISUAL STUDIO / .NET (GLOBAL IGNORE) ---
+
+.vs/
+**/.vs/
+bin/
+obj/
+**/bin/
+**/obj/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.cache
+*.dbmdl
+*.jfm
+[Dd]ebug/
+[Rr]elease/
+*.mdf
+*.ldf
+*.ndf
+
+#--- OTHERS ---
+
+publish/
+.idea/
+.vscode/
