@@ -68,7 +68,7 @@ const EventsPage: React.FC = () => {
     if (!isMounted) return null;
 
     return (
-        <div className="bg-background min-h-screen">
+        <div className="bg-background min-h-screen pt-20">
             {/* --- HERO HEADER --- */}
             <div className="relative bg-primary py-20 overflow-hidden">
                 <div className="container mx-auto px-6 relative z-10">

@@ -104,9 +104,9 @@ const BiayaStudiPage: React.FC = () => {
             {/* --- QUICK NAV (Unified with Admisi Section) --- */}
             <section className="py-12 bg-card border-b border-border">
                 <div className="container mx-auto px-6">
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="flex flex-col md:flex-row  flex-wrap justify-center gap-4">
                         {[
-                            { label: "BEASISWA", href: "/mahasiswa/beasiswa" },
+                            { label: "BEASISWA", href: "/keuangan/beasiswa" },
                             { label: "PROSEDUR", href: "/admisi/prosedur" },
                             { label: "PERSYARATAN", href: "/admisi/persyaratan" },
                             { label: "FAQ", href: "/admisi/faq" }

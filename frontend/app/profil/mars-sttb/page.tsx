@@ -10,6 +10,11 @@ const MarsSTTBPage: React.FC = () => {
     const [isMuted, setIsMuted] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
+    useEffect(() => {
+        onLoadedMetadata();
+        onTimeUpdate();
+    }, [])
+
     const togglePlay = () => {
         if (audioRef.current) {
             if (isPlaying) {
