@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, ChevronDown, User, Search, Clock } from 'lucide-react';
+import { Menu, X, Phone, Mail, ChevronDown, User, Clock } from 'lucide-react';
 
 interface NavLink {
     label: string;
@@ -93,21 +93,32 @@ const Navbar: React.FC = () => {
             ]
         },
         {
+            label: 'Admisi',
+            href: '/',
+            children: [
+                { label: 'Pendaftaran Online', href: '/admisi/pendaftaran' },
+                { label: 'Jadwal Admisi', href: '/admisi/jadwal' },
+                { label: 'Prosedur Admisi', href: '/admisi/prosedur' },
+                { label: 'Info Persyaratan', href: '/admisi/persyaratan' },
+                { label: 'FAQ', href: '/admisi/faq' },
+            ]
+        },
+        {
             label: 'Keuangan',
             href: '/',
             children: [
-                { label: 'Biaya Studi', href: '/mahasiswa/biaya' },
-                { label: 'Beasiswa', href: '/mahasiswa/beasiswa' },
-                { label: 'Dukung STTB', href: '/mahasiswa/dukung' },
+                { label: 'Biaya Studi', href: '/keuangan/biaya' },
+                { label: 'Beasiswa', href: '/keuangan/beasiswa' },
+                { label: 'Dukung STTB', href: '/keuangan/dukung' },
             ]
         },
         {
             label: 'Kehidupan Kampus',
             href: '/',
             children: [
-                { label: 'Fasilitas', href: '/kampus/fasilitas' },
-                { label: 'Pembinaan', href: '/kampus/pembinaan' },
-                { label: 'Senat', href: '/kampus/senat' },
+                { label: 'Fasilitas', href: '/under-development' },
+                { label: 'Pembinaan', href: '/under-development' },
+                { label: 'Senat', href: '/under-development' },
             ]
         },
         { label: 'Berita', href: '/berita' },
