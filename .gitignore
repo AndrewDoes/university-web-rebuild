@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#Folder cache utama VS yang bikin berisik
+.vs/
+
+#--- IGNORE ENTIRE BACKEND ---
+STTB/
+**/STTB/
