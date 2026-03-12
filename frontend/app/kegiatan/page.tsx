@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link'; // For client-side navigation
+import Link from 'next/link';
 import {
     Calendar as CalendarIcon,
     ChevronLeft,
@@ -41,7 +41,7 @@ const EventsPage: React.FC = () => {
         const month = currentDate.getMonth();
         const totalDays = new Date(year, month + 1, 0).getDate();
         const offset = new Date(year, month, 1).getDay();
-        const days = [];
+        const days: ({ day: number; dateStr: string } | null)[] = [];
         for (let i = 0; i < offset; i++) days.push(null);
         for (let i = 1; i <= totalDays; i++) {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
@@ -54,17 +54,18 @@ const EventsPage: React.FC = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + offset, 1));
     };
 
-    // Filter events based on selected date and search term (AND Category)
-    const selectedDayEvents = events.filter(e => {
-        const matchesDate = e.startDate.split('T')[0] === selectedDate;
-        const matchesSearch = e.title.toLowerCase().includes(searchTerm.toLowerCase());
-        
-        // As the current backend model might not have category, we will just stub this out so UI works 
-        // For a full fix we would add category to EventDto and backend
-        // const matchesCategory = activeCategory === "Semua" ? true : e.category === activeCategory;
-        
-        return matchesDate && matchesSearch;
-    }).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+    // Events on ONLY the selected day
+    const selectedDayEvents = events.filter(e =>
+        e.startDate.split('T')[0] === selectedDate &&
+        e.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ).sort((a, b) => a.startDate.localeCompare(b.startDate));
+
+    // All upcoming events from today onwards (independent of calendar)
+    const todayStr = new Date().toISOString().split('T')[0];
+    const upcomingEvents = events.filter(e =>
+        e.startDate.split('T')[0] >= todayStr &&
+        e.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ).sort((a, b) => a.startDate.localeCompare(b.startDate));
 
     return (
         <main className="min-h-screen bg-background font-sans text-foreground">
@@ -75,7 +76,7 @@ const EventsPage: React.FC = () => {
                     <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[140%] bg-secondary rounded-full blur-[120px] mix-blend-overlay"></div>
                     <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[120%] bg-primary-foreground rounded-full blur-[100px] mix-blend-overlay"></div>
                 </div>
-                
+
                 <div className="container mx-auto px-6 relative z-10 text-left">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
                         <div className="space-y-6">
@@ -91,12 +92,8 @@ const EventsPage: React.FC = () => {
                             </p>
                         </div>
 
-                        {/* Search Input */}
                         <div className="relative w-full md:w-96 group">
-                            <Search
-                                className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-foreground/40 group-focus-within:text-secondary transition-colors"
-                                size={20}
-                            />
+                            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-foreground/40 group-focus-within:text-secondary transition-colors" size={20} />
                             <input
                                 type="text"
                                 placeholder="Cari agenda..."
@@ -128,7 +125,9 @@ const EventsPage: React.FC = () => {
                     ))}
                 </div>
 
+                {/* ===== ROW 1: CALENDAR + THAT DAY'S EVENTS ===== */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+
                     {/* LEFT: CALENDAR GRID */}
                     <div className="lg:col-span-7">
                         <div className="bg-card border border-border rounded-sm shadow-sm overflow-hidden">
@@ -157,8 +156,8 @@ const EventsPage: React.FC = () => {
                                         <div
                                             key={i}
                                             onClick={() => item && setSelectedDate(item.dateStr)}
-                                            className={`min-h-[100px] border-[0.5px] border-border/50 p-3 transition-all cursor-pointer group relative 
-                                                ${!item ? 'bg-muted/20' : 'bg-card hover:bg-primary/5'} 
+                                            className={`min-h-[100px] border-[0.5px] border-border/50 p-3 transition-all cursor-pointer group relative
+                                                ${!item ? 'bg-muted/20' : 'bg-card hover:bg-primary/5'}
                                                 ${selectedDate === item?.dateStr ? 'bg-primary/5 ring-1 ring-inset ring-secondary z-10' : ''}`}
                                         >
                                             {item && (
@@ -185,72 +184,115 @@ const EventsPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT: EVENT DETAILS FEED */}
-                    <div className="lg:col-span-5 space-y-10 text-left">
+                    {/* RIGHT: AGENDA ON THE SELECTED DAY */}
+                    <div className="lg:col-span-5 space-y-6 text-left">
                         <div className="flex items-center justify-between border-b border-border pb-4">
-                            <h4 className="text-primary font-black font-serif uppercase tracking-[0.3em] text-xs">Detail Agenda</h4>
+                            <h4 className="text-primary font-black font-serif uppercase tracking-[0.3em] text-xs">Agenda Hari Ini</h4>
                             <span className="text-[10px] font-bold text-secondary bg-secondary/10 px-3 py-1 rounded-full uppercase">
-                                {selectedDate}
+                                {new Date(selectedDate.split('T')[0] + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })}
                             </span>
                         </div>
-                        
-                        <div className="space-y-6">
-                            {/* UPCOMING EVENTS LIST */}
-                            {loading ? (
-                                <div className="py-20 flex justify-center opacity-20">
-                                    <Loader2 className="animate-spin text-primary" size={32} />
-                                </div>
-                            ) : events.length > 0 ? (
-                                events
-                                .filter(e => {
-                                    const eventDate = new Date(e.startDate).getTime();
-                                    const targetDate = new Date(selectedDate).getTime();
-                                    const matchesSearch = e.title.toLowerCase().includes(searchTerm.toLowerCase());
-                                    // only show events from the selected date ONWARDS (upcoming)
-                                    return eventDate >= targetDate && matchesSearch;
-                                })
-                                .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
-                                .map(event => (
-                                    <article key={event.id} className="group bg-card border border-border p-8 rounded-sm hover:-translate-y-1 hover:shadow-xl hover:border-primary/50 transition-all duration-300">
-                                        <div className="flex flex-wrap items-center gap-3 mb-6">
-                                            <span className="bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-sm">
-                                                {new Date(event.startDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                            </span>
-                                            {event.isFeatured && (
-                                              <span className="border border-secondary text-secondary text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-sm">
-                                                  Unggulan
-                                              </span>
-                                            )}
-                                        </div>
-                                        <h5 className="text-2xl font-black text-primary font-serif uppercase tracking-tight mb-6 italic leading-tight group-hover:text-secondary transition-colors">
+
+                        {loading ? (
+                            <div className="py-20 flex justify-center opacity-20">
+                                <Loader2 className="animate-spin text-primary" size={32} />
+                            </div>
+                        ) : selectedDayEvents.length > 0 ? (
+                            <div className="space-y-4">
+                                {selectedDayEvents.map(event => (
+                                    <article key={event.id} className="group bg-card border border-border p-6 rounded-sm hover:-translate-y-1 hover:shadow-xl hover:border-primary/50 transition-all duration-300">
+                                        {event.isFeatured && (
+                                            <span className="text-[8px] font-black text-secondary uppercase tracking-[0.2em] mb-3 block">★ Unggulan</span>
+                                        )}
+                                        <h5 className="text-xl font-black text-primary font-serif uppercase tracking-tight mb-4 italic leading-tight group-hover:text-secondary transition-colors">
                                             {event.title}
                                         </h5>
-                                        <div className="space-y-3 text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                                            <div className="flex items-center gap-4">
-                                                <Clock size={16} className="text-secondary" /> {event.time}
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                <MapPin size={16} className="text-secondary" /> {event.location}
-                                            </div>
+                                        <div className="space-y-2 text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
+                                            <div className="flex items-center gap-3"><Clock size={14} className="text-secondary" /> {event.time}</div>
+                                            <div className="flex items-center gap-3"><MapPin size={14} className="text-secondary" /> {event.location}</div>
                                         </div>
-                                        <div className="pt-8 border-t border-border mt-8">
-                                            <Link
-                                                href={`/kegiatan/${event.id}`}
-                                                className="inline-flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.3em] text-primary hover:gap-6 transition-all no-underline"
-                                            >
-                                                Lihat Selengkapnya
-                                            </Link>
-                                        </div>
+                                        <Link
+                                            href={`/kegiatan/${event.id}`}
+                                            className="mt-4 pt-4 border-t border-border inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:gap-4 transition-all no-underline w-full"
+                                        >
+                                            Lihat Selengkapnya
+                                        </Link>
                                     </article>
-                                ))
-                            ) : (
-                                <div className="py-24 border-2 border-dashed border-border rounded-sm text-center opacity-30 font-serif italic text-lg text-muted-foreground">
-                                    Tidak ada agenda pada tanggal ini.
-                                </div>
-                            )}
-                        </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="py-16 border-2 border-dashed border-border rounded-sm text-center opacity-30 font-serif italic text-base text-muted-foreground">
+                                Tidak ada agenda pada tanggal ini.
+                            </div>
+                        )}
                     </div>
                 </div>
+
+                {/* ===== ROW 2: ALL UPCOMING EVENTS (independent section) ===== */}
+                <div className="mt-24 pt-16 border-t border-border">
+                    <div className="flex items-center justify-between mb-12">
+                        <div className="space-y-2">
+                            <p className="text-secondary font-bold tracking-[0.4em] uppercase text-xs">Linimasa</p>
+                            <h2 className="text-3xl md:text-4xl font-black text-primary font-serif uppercase tracking-tighter">
+                                Agenda Mendatang
+                            </h2>
+                        </div>
+                        <span className="text-[10px] font-bold text-muted-foreground bg-muted px-4 py-2 rounded-full uppercase tracking-widest border border-border">
+                            {upcomingEvents.length} Kegiatan
+                        </span>
+                    </div>
+
+                    {loading ? (
+                        <div className="py-20 flex justify-center opacity-20">
+                            <Loader2 className="animate-spin text-primary" size={40} />
+                        </div>
+                    ) : upcomingEvents.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                            {upcomingEvents.map(event => (
+                                <article key={event.id} className="group bg-card border border-border rounded-sm overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-primary/40 transition-all duration-300 flex flex-col">
+                                    {/* Date Header */}
+                                    <div className="bg-primary p-6 relative overflow-hidden">
+                                        <div className="absolute right-0 top-0 opacity-5 pointer-events-none">
+                                            <CalendarIcon size={100} />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <p className="text-secondary text-3xl font-black font-serif leading-none">
+                                                {new Date(event.startDate.split('T')[0] + 'T00:00:00').getDate()}
+                                            </p>
+                                            <p className="text-primary-foreground/60 text-[10px] font-bold uppercase tracking-[0.3em]">
+                                                {new Date(event.startDate.split('T')[0] + 'T00:00:00').toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {/* Card Body */}
+                                    <div className="p-6 flex flex-col flex-1">
+                                        {event.isFeatured && (
+                                            <span className="text-[8px] font-black text-secondary uppercase tracking-[0.2em] mb-2">★ Unggulan</span>
+                                        )}
+                                        <h5 className="text-lg font-black text-primary font-serif uppercase tracking-tight mb-4 italic leading-snug group-hover:text-secondary transition-colors line-clamp-2">
+                                            {event.title}
+                                        </h5>
+                                        <div className="space-y-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-auto">
+                                            <div className="flex items-center gap-3"><Clock size={12} className="text-secondary shrink-0" /> {event.time}</div>
+                                            <div className="flex items-center gap-3"><MapPin size={12} className="text-secondary shrink-0" /> <span className="line-clamp-1">{event.location}</span></div>
+                                        </div>
+                                        <Link
+                                            href={`/kegiatan/${event.id}`}
+                                            className="mt-6 pt-4 border-t border-border inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:gap-4 transition-all no-underline"
+                                        >
+                                            Lihat Selengkapnya
+                                        </Link>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="py-24 border-2 border-dashed border-border rounded-sm text-center opacity-30 font-serif italic text-lg text-muted-foreground">
+                            Belum ada agenda mendatang.
+                        </div>
+                    )}
+                </div>
+
             </section>
         </main>
     );
