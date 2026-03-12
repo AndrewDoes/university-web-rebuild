@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  --text: #171717;
+  --text-alt: #f4f4f4;
   /* --- CORE PALETTE (LIGHT) --- */
   --background: #ffffff;
   --foreground: #171717;
@@ -28,6 +30,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --text: #f4f4f4;
+    --text-alt: #f4f4f4;
     /* --- CORE PALETTE (DARK) --- */
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -47,6 +51,8 @@
 }
 
 @theme {
+  --color-text: var(--text);
+  --color-text-alt: var(--text-alt);
   /* Map standard CSS variables to Tailwind tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
