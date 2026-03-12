@@ -1,53 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|d:\\binus_coding\\magang\\project2\\backend\\sttb.webapi\\controllers\\eventscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|solutionrelative:sttb.webapi\\controllers\\eventscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DA830044-C8FB-9119-78F9-FEFE18F15303}|STTB.Contracts\\STTB.Contracts.csproj|d:\\binus_coding\\magang\\project2\\backend\\sttb.contracts\\requestmodels\\events\\getupcomingeventsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DA830044-C8FB-9119-78F9-FEFE18F15303}|STTB.Contracts\\STTB.Contracts.csproj|solutionrelative:sttb.contracts\\requestmodels\\events\\getupcomingeventsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EventsController.cs",
-              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.WebAPI\\Controllers\\EventsController.cs",
-              "RelativeDocumentMoniker": "STTB.WebAPI\\Controllers\\EventsController.cs",
-              "ToolTip": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.WebAPI\\Controllers\\EventsController.cs",
-              "RelativeToolTip": "STTB.WebAPI\\Controllers\\EventsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T08:27:07.209Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GetUpcomingEventsRequest.cs",
-              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
-              "RelativeDocumentMoniker": "STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
-              "ToolTip": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
-              "RelativeToolTip": "STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T08:27:01.839Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
         {
           "DockedWidth": 200,
           "SelectedChildIndex": -1,

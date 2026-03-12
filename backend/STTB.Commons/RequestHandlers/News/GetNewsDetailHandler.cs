@@ -6,8 +6,7 @@ using STTB.Entities;
 
 namespace STTB.Commons.RequestHandlers;
 
-public class GetNewsDetailHandler
-    : IRequestHandler<GetNewsDetailRequest, GetNewsDetailResponse>
+public class GetNewsDetailHandler : IRequestHandler<GetNewsDetailRequest, GetNewsDetailResponse>
 {
     private readonly ApplicationDbContext _context;
 
@@ -16,15 +15,15 @@ public class GetNewsDetailHandler
         _context = context;
     }
 
-    public async Task<GetNewsDetailResponse> Handle(
-        GetNewsDetailRequest request,
-        CancellationToken cancellationToken)
+    public async Task<GetNewsDetailResponse> Handle(GetNewsDetailRequest request, CancellationToken cancellationToken)
     {
         var news = await _context.News
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (news == null)
+        {
             return null;
+        }
 
         return new GetNewsDetailResponse
         {

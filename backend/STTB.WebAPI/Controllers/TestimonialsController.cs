@@ -24,7 +24,7 @@ namespace STTB.WebAPI.Controllers
         }
 
         [HttpGet("featured")]
-        public async Task<IActionResult> GetFeaturedTestimonials([FromQuery][Range(1, 50, ErrorMessage = "Limit must be between 1 and 50")] int limit = 4)
+        public async Task<IActionResult> GetFeaturedTestimonials([FromQuery] [Range(1, 50, ErrorMessage = "Limit must be between 1 and 50")] int limit = 4)
         {
             var result = await _mediator.Send(new GetFeaturedTestimonialsRequest
             {

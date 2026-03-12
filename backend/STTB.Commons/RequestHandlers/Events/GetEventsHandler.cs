@@ -15,7 +15,6 @@ public class GetEventsHandler : IRequestHandler<GetEventsQuery, List<GetEventsRe
     public async Task<List<GetEventsResponse>> Handle(GetEventsQuery request, CancellationToken cancellationToken)
     {
         var upcomingEvents = await _context.Events
-            //.Where(e => e.Status != "completed")
             .OrderByDescending(e => e.StartDate)
             .Select(e => new GetEventsResponse
             {

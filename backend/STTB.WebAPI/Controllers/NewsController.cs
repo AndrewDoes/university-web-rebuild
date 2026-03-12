@@ -39,7 +39,9 @@ public class NewsController : ControllerBase
         var result = await _mediator.Send(request, cancellationToken);
 
         if (result == null)
+        {
             return NotFound();
+        }
 
         return Ok(result);
     }

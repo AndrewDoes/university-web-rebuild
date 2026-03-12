@@ -54,8 +54,10 @@ public class EventsController : ControllerBase
         var result = await _mediator.Send(request);
 
         if (!result)
-            return NotFound("Event not found");
+        {
+            return NotFound("Event not found!");
+        }
 
-        return Ok("Registration successful");
+        return Ok("Registration successful!");
     }
 }

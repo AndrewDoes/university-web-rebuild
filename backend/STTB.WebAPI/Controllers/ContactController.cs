@@ -23,7 +23,7 @@ namespace STTB.WebAPI.Controllers
             return Ok(new
             {
                 success = result,
-                message = "Message sent successfully"
+                message = "Message sent successfully!"
             });
         }
     }

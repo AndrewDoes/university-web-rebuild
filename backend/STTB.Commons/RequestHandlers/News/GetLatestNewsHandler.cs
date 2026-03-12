@@ -16,9 +16,7 @@ public class GetLatestNewsHandler
         _context = context;
     }
 
-    public async Task<GetLatestNewsResponse> Handle(
-        GetLatestNewsRequest request,
-        CancellationToken cancellationToken)
+    public async Task<GetLatestNewsResponse> Handle(GetLatestNewsRequest request, CancellationToken cancellationToken)
     {
         var news = await _context.News
             .OrderByDescending(x => x.PublishedAt)

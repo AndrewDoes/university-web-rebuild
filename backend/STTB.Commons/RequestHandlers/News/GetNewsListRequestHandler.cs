@@ -15,9 +15,7 @@ public class GetNewsListRequestHandler : IRequestHandler<GetNewsListRequest, Get
         _db = db;
     }
 
-    public async Task<GetNewsListResponse> Handle(
-        GetNewsListRequest request,
-        CancellationToken cancellationToken)
+    public async Task<GetNewsListResponse> Handle(GetNewsListRequest request, CancellationToken cancellationToken)
     {
         var news = await _db.News
             .Where(x => x.Status == "published")
