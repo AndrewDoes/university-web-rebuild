@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
@@ -30,10 +30,13 @@ public class GetNewsDetailHandler
         {
             Id = news.Id,
             Title = news.Title,
+            Slug = news.Slug,
             Content = news.Content,
+            Excerpt = news.Excerpt,
             Image = news.Image,
             Category = news.Category,
             Author = news.Author,
+            Status = news.Status,
             PublishedAt = news.PublishedAt
         };
     }

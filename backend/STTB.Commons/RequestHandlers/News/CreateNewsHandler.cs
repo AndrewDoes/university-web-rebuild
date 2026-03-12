@@ -14,11 +14,15 @@ public class CreateNewsHandler : IRequestHandler<CreateNewsRequest, CreateNewsRe
 
     public async Task<CreateNewsResponse> Handle(CreateNewsRequest request, CancellationToken cancellationToken)
     {
+        var slug = string.IsNullOrWhiteSpace(request.Slug) 
+            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
+            : request.Slug;
+
         var news = new STTB.Entities.Entities.News
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
-            Slug = request.Slug,
+            Slug = slug,
             Excerpt = request.Excerpt,
             Content = request.Content,
             Image = request.Image,

@@ -1,10 +1,10 @@
 'use client'
 import React, { useState } from 'react';
 import { Save, Loader2, Image as ImageIcon, Type, Tag, User, FileText } from 'lucide-react';
-import { NewsDto } from '../../services/api';
+import { NewsDetailDto } from '../../services/api';
 
 interface NewsFormProps {
-    initialData?: Partial<NewsDto>;
+    initialData?: Partial<NewsDetailDto>;
     onSubmit: (data: any) => Promise<void>;
     isLoading: boolean;
 }
@@ -14,8 +14,8 @@ export const NewsForm: React.FC<NewsFormProps> = ({ initialData, onSubmit, isLoa
         title: initialData?.title || '',
         category: initialData?.category || 'Akademik',
         content: initialData?.content || '',
-        thumbnailUrl: initialData?.thumbnailUrl || '',
-        authorName: initialData?.authorName || ''
+        thumbnailUrl: initialData?.image || '',
+        authorName: initialData?.author || ''
     });
 
     const handleSubmit = (e: React.FormEvent) => {

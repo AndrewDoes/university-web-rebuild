@@ -13,11 +13,15 @@ public class CreateEventHandler : IRequestHandler<CreateEventRequest, CreateEven
 
     public async Task<CreateEventResponse> Handle(CreateEventRequest request, CancellationToken cancellationToken)
     {
+        var slug = string.IsNullOrWhiteSpace(request.Slug) 
+            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
+            : request.Slug;
+
         var ev = new STTB.Entities.Event
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
-            Slug = request.Slug,
+            Slug = slug,
             Description = request.Description ?? string.Empty,
             Content = request.Content ?? string.Empty,
             Image = request.Image ?? string.Empty,

@@ -27,7 +27,7 @@ export default function CreateEventPage() {
         startDate: new Date().toISOString().split('T')[0],
         time: '',
         location: '',
-        price: 0,
+        price: '0',
         description: '',
         isFeatured: false
     });
@@ -133,7 +133,7 @@ export default function CreateEventPage() {
                                     type="number"
                                     className="w-full bg-background border border-border px-4 py-3 rounded-lg focus:ring-2 focus:ring-primary/20 outline-none transition-all font-medium text-sm"
                                     value={formData.price}
-                                    onChange={e => setFormData({ ...formData, price: parseInt(e.target.value) })}
+                                    onChange={e => setFormData({ ...formData, price: e.target.value })}
                                 />
                             </div>
                         </div>

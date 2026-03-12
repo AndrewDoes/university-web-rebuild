@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
@@ -20,14 +20,16 @@ public class GetNewsListRequestHandler : IRequestHandler<GetNewsListRequest, Get
         CancellationToken cancellationToken)
     {
         var news = await _db.News
-            .Where(x => x.Status == "published")
             .OrderByDescending(x => x.PublishedAt)
             .Select(x => new NewsDto
             {
                 Id = x.Id,
                 Title = x.Title,
+                Slug = x.Slug,
                 Excerpt = x.Excerpt ?? "",
                 Image = x.Image ?? "",
+                Category = x.Category,
+                Status = x.Status,
                 PublishedAt = x.PublishedAt
             })
             .ToListAsync(cancellationToken);

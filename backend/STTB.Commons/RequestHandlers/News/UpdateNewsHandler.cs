@@ -17,7 +17,10 @@ public class UpdateNewsHandler : IRequestHandler<UpdateNewsRequest, UpdateNewsRe
             ?? throw new KeyNotFoundException($"News with id {request.Id} not found.");
 
         news.Title = request.Title;
-        news.Slug = request.Slug;
+        
+        news.Slug = string.IsNullOrWhiteSpace(request.Slug) 
+            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
+            : request.Slug;
         news.Excerpt = request.Excerpt;
         news.Content = request.Content;
         news.Image = request.Image;

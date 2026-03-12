@@ -1,4 +1,4 @@
-﻿namespace STTB.Contracts.ResponseModels.News;
+namespace STTB.Contracts.ResponseModels.News;
 
 public class GetNewsListResponse
 {
@@ -11,9 +11,15 @@ public class NewsDto
 
     public string Title { get; set; } = string.Empty;
 
+    public string Slug { get; set; } = string.Empty;
+
     public string Excerpt { get; set; } = string.Empty;
 
     public string Image { get; set; } = string.Empty;
+
+    public string Category { get; set; } = string.Empty;
+
+    public string Status { get; set; } = string.Empty;
 
     public DateTime PublishedAt { get; set; }
 }

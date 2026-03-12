@@ -17,7 +17,10 @@ public class UpdateEventHandler : IRequestHandler<UpdateEventRequest, UpdateEven
             ?? throw new KeyNotFoundException($"Event with id {request.Id} not found.");
 
         ev.Title = request.Title;
-        ev.Slug = request.Slug;
+        
+        ev.Slug = string.IsNullOrWhiteSpace(request.Slug) 
+            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
+            : request.Slug;
         ev.Description = request.Description ?? string.Empty;
         ev.Content = request.Content ?? string.Empty;
         ev.Image = request.Image ?? string.Empty;

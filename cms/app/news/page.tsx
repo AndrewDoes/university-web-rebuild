@@ -21,6 +21,7 @@ export default function NewsListPage() {
     const [formData, setFormData] = useState<Partial<NewsDetailDto>>(EMPTY_FORM);
     const [saving, setSaving] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [activeTab, setActiveTab] = useState<'published' | 'draft'>('published');
 
     const fetchNews = async () => {
         setLoading(true);
@@ -95,9 +96,11 @@ export default function NewsListPage() {
         }
     };
 
-    const filteredNews = news.filter(item =>
-        (item.title?.toLowerCase() || "").includes(searchQuery.toLowerCase())
-    );
+    const filteredNews = news.filter(item => {
+        const matchesSearch = (item.title?.toLowerCase() || "").includes(searchQuery.toLowerCase());
+        const itemStatus = item.status?.toLowerCase() || 'draft';
+        return matchesSearch && itemStatus === activeTab;
+    });
 
     const field = (label: string, icon: React.ReactNode, key: keyof NewsDetailDto, placeholder: string, type = 'text') => (
         <div className="space-y-2">
@@ -134,6 +137,20 @@ export default function NewsListPage() {
 
             {/* TOOLBAR */}
             <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex bg-muted p-1 rounded-xl">
+                    <button
+                        onClick={() => setActiveTab('published')}
+                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'published' ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        Published
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('draft')}
+                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'draft' ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        Drafts
+                    </button>
+                </div>
                 <div className="relative flex-1 group">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={16} />
                     <input
@@ -240,6 +257,19 @@ export default function NewsListPage() {
                             <div className="grid grid-cols-2 gap-4">
                                 {field("Kategori", <Newspaper size={14} className="text-primary" />, 'category', 'Akademik / Institusi')}
                                 {field("Penulis", <FileText size={14} className="text-primary" />, 'author', 'Nama Penulis')}
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                    <Newspaper size={14} className="text-primary" /> Status *
+                                </label>
+                                <select
+                                    value={formData.status || 'draft'}
+                                    onChange={e => setFormData(p => ({ ...p, status: e.target.value }))}
+                                    className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all"
+                                >
+                                    <option value="draft">Draft</option>
+                                    <option value="published">Published</option>
+                                </select>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
