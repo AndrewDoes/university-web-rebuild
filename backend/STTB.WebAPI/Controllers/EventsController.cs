@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.Events;
+using System.ComponentModel.DataAnnotations;
 
 [ApiController]
 [Route("api/events")]
@@ -28,7 +29,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpGet("upcoming")]
-    public async Task<IActionResult> GetUpcomingEvents([FromQuery] int limit = 4)
+    public async Task<IActionResult> GetUpcomingEvents([FromQuery] [Range(1, 50, ErrorMessage = "Limit must be between 1 and 50")] int limit = 4)
     {
         var result = await _mediator.Send(new GetUpcomingEventsRequest
         {

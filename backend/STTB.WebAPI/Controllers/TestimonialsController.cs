@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.Testimonials;
+using System.ComponentModel.DataAnnotations;
 
 namespace STTB.WebAPI.Controllers
 {
@@ -23,7 +24,7 @@ namespace STTB.WebAPI.Controllers
         }
 
         [HttpGet("featured")]
-        public async Task<IActionResult> GetFeaturedTestimonials([FromQuery] int limit = 4)
+        public async Task<IActionResult> GetFeaturedTestimonials([FromQuery][Range(1, 50, ErrorMessage = "Limit must be between 1 and 50")] int limit = 4)
         {
             var result = await _mediator.Send(new GetFeaturedTestimonialsRequest
             {

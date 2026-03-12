@@ -22,6 +22,8 @@ public class GetNewsListRequestHandler : IRequestHandler<GetNewsListRequest, Get
         var news = await _db.News
             .Where(x => x.Status == "published")
             .OrderByDescending(x => x.PublishedAt)
+            .Skip((request.Page - 1) * request.Limit)
+            .Take(request.Limit)
             .Select(x => new NewsDto
             {
                 Id = x.Id,

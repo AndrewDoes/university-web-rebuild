@@ -97,8 +97,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "STTB.Contracts.RequestModels.News.GetNewsListRequest",
+        "Name": "Limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
@@ -201,26 +206,5 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "STTB.WebAPI.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[STTB.WebAPI.WeatherForecast, STTB.WebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "GetWeatherForecast"
   }
 ]

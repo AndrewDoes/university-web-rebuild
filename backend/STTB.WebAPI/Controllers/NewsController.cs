@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
+using System.ComponentModel.DataAnnotations;
 
 namespace STTB.WebAPI.Controllers;
 
@@ -44,9 +45,7 @@ public class NewsController : ControllerBase
     }
 
     [HttpGet("latest")]
-    public async Task<ActionResult<GetLatestNewsResponse>> GetLatestNews(
-    [FromQuery] GetLatestNewsRequest request,
-    CancellationToken cancellationToken)
+    public async Task<ActionResult<GetLatestNewsResponse>> GetLatestNews([FromQuery] GetLatestNewsRequest request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(result);

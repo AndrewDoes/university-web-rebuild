@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using STTB.Contracts.ResponseModels.Testimonials;
+using System.ComponentModel.DataAnnotations;
 
 namespace STTB.Contracts.RequestModels.Testimonials
 {
