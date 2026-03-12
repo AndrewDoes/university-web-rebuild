@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
                 { label: 'Magister Ministri Marketplace', href: '/prodi/s2-ministri-marketplace' },
                 { label: 'Magister Ministri Kepemimpinan Pastoral', href: '/prodi/s2-ministri-kepemimpinan' },
                 { label: 'Magister Ministri Teologi Pelayanan Gerejawi', href: '/prodi/s2-ministri-gerejawi' },
-                { label: 'Kalender Akademik', href: '/akademik/kalender' },
+                { label: 'Kalender Akademik', href: '/under-development' },
             ]
         },
         {

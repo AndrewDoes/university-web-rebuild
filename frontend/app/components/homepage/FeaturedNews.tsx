@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, FileText, Clock, Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { api, NewsDto } from '@/app/services/api';
 
 const categories = ["All", "Civitas", "Akademik", "Kemahasiswaan", "Institusi", "Kegiatan", "Alumni"];
@@ -21,8 +22,9 @@ const NewsMedia: React.FC = () => {
         fetchNews();
     }, []);
 
-    const featured = newsItems[0];
-    const sidebarItems = newsItems.slice(1);
+    const filteredNews = activeCat === "All" ? newsItems : newsItems.filter(n => n.category === activeCat);
+    const featured = filteredNews[0];
+    const sidebarItems = filteredNews.slice(1);
 
     if (loading) return <div className="py-24 flex justify-center"><Loader2 className="animate-spin text-primary" size={32} /></div>;
 
@@ -59,7 +61,7 @@ const NewsMedia: React.FC = () => {
                                     {/* RESTORED: font-serif italic */}
                                     <h3 className="text-4xl md:text-6xl font-black text-white font-serif uppercase tracking-tighter mb-4 leading-none italic">{featured.title}</h3>
                                     <p className="text-white/60 text-xs md:text-sm max-w-lg mb-8 italic border-l-2 border-secondary pl-6 line-clamp-2">{featured.excerpt}</p>
-                                    <button className="bg-secondary text-secondary-foreground px-8 py-3 rounded-sm font-bold text-[10px] uppercase tracking-[0.3em] hover:opacity-90 transition-all w-fit shadow-lg shadow-black/20">Read More</button>
+                                    <Link href={`/berita/${featured.id}`} className="bg-secondary text-secondary-foreground px-8 py-3 rounded-sm font-bold text-[10px] uppercase tracking-[0.3em] hover:opacity-90 transition-all w-fit shadow-lg shadow-black/20 no-underline">Read More</Link>
                                 </div>
                             </div>
                         ) : null}

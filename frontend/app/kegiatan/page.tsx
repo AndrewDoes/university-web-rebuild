@@ -54,12 +54,17 @@ const EventsPage: React.FC = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + offset, 1));
     };
 
-    // Filter events based on selected date and search term
+    // Filter events based on selected date and search term (AND Category)
     const selectedDayEvents = events.filter(e => {
         const matchesDate = e.startDate.split('T')[0] === selectedDate;
         const matchesSearch = e.title.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        // As the current backend model might not have category, we will just stub this out so UI works 
+        // For a full fix we would add category to EventDto and backend
+        // const matchesCategory = activeCategory === "Semua" ? true : e.category === activeCategory;
+        
         return matchesDate && matchesSearch;
-    });
+    }).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
     return (
         <main className="min-h-screen bg-background font-sans text-foreground">
@@ -183,19 +188,34 @@ const EventsPage: React.FC = () => {
                                 {selectedDate}
                             </span>
                         </div>
-
+                        
                         <div className="space-y-6">
+                            {/* UPCOMING EVENTS LIST */}
                             {loading ? (
                                 <div className="py-20 flex justify-center opacity-20">
                                     <Loader2 className="animate-spin text-primary" size={32} />
                                 </div>
-                            ) : selectedDayEvents.length > 0 ? (
-                                selectedDayEvents.map(event => (
-                                    <article key={event.id} className="group bg-card border border-border p-8 rounded-sm hover:border-primary transition-all shadow-sm">
-                                        <div className="flex items-center gap-3 mb-6">
+                            ) : events.length > 0 ? (
+                                events
+                                .filter(e => {
+                                    const eventDate = new Date(e.startDate).getTime();
+                                    const targetDate = new Date(selectedDate).getTime();
+                                    const matchesSearch = e.title.toLowerCase().includes(searchTerm.toLowerCase());
+                                    // only show events from the selected date ONWARDS (upcoming)
+                                    return eventDate >= targetDate && matchesSearch;
+                                })
+                                .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+                                .map(event => (
+                                    <article key={event.id} className="group bg-card border border-border p-8 rounded-sm hover:-translate-y-1 hover:shadow-xl hover:border-primary/50 transition-all duration-300">
+                                        <div className="flex flex-wrap items-center gap-3 mb-6">
                                             <span className="bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-sm">
-                                                Official Event
+                                                {new Date(event.startDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                                             </span>
+                                            {event.isFeatured && (
+                                              <span className="border border-secondary text-secondary text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-sm">
+                                                  Unggulan
+                                              </span>
+                                            )}
                                         </div>
                                         <h5 className="text-2xl font-black text-primary font-serif uppercase tracking-tight mb-6 italic leading-tight group-hover:text-secondary transition-colors">
                                             {event.title}

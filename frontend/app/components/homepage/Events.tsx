@@ -66,7 +66,7 @@ const EventsCarousel: React.FC = () => {
                                         key={event.id}
                                         className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 pl-4 lg:pl-6"
                                     >
-                                        <div className="bg-card border border-border hover:shadow-xl transition-all h-full flex flex-col group rounded-sm overflow-hidden">
+                                        <div className="bg-card border border-border hover:shadow-2xl hover:-translate-y-2 hover:border-primary/50 transition-all duration-300 h-full flex flex-col group rounded-sm overflow-hidden">
                                             <div className="aspect-video w-full overflow-hidden bg-muted relative">
                                                 <img
                                                     //open when already hav imeg

@@ -27,7 +27,9 @@ export default function AdminLayout({
         setPageMeta({ title: 'Manajemen Berita', breadcrumb: ['Berita & Media'] });
       } else if (path.includes('/events')) {
         setPageMeta({ title: 'Agenda Kampus', breadcrumb: ['Events'] });
-      } else if (path.includes('/dosen')) {
+      } else if (path.includes('/testimonial')) {
+        setPageMeta({ title: 'Manajemen Testimoni', breadcrumb: ['Testimoni'] });
+      } else if (path.includes('/lecturers')) {
         setPageMeta({ title: 'Manajemen Dosen', breadcrumb: ['Personalia'] });
       } else if (path.includes('/settings')) {
         setPageMeta({ title: 'Pengaturan Sistem', breadcrumb: ['Settings'] });

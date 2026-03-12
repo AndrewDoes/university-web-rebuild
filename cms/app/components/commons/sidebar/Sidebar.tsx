@@ -11,7 +11,9 @@ import {
     Database,
     Cpu,
     Command,
-    Activity
+    Activity,
+    Group,
+    MessageSquareQuote
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -22,7 +24,8 @@ const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} />, href: '/' },
     { id: 'news', label: 'Berita & Media', icon: <Newspaper size={20} />, href: '/news' },
     { id: 'events', label: 'Agenda Kampus', icon: <Calendar size={20} />, href: '/events' },
-    { id: 'dosen', label: 'Manajemen Dosen', icon: <Users size={20} />, href: '/dosen' },
+    { id: 'testimonial', label: 'Testimoni', icon: <MessageSquareQuote size={20} />, href: '/testimonial' },
+    { id: 'dosen', label: 'Manajemen Dosen', icon: <Users size={20} />, href: '/lecturers' },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ apiStatus }) => {

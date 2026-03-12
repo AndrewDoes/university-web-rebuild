@@ -12,6 +12,8 @@ export interface NewsDto {
     excerpt: string;
     image: string;
     publishedAt: string;
+    category?: string;
+    slug?: string;
 }
 
 export interface NewsDetailDto extends NewsDto {
@@ -42,6 +44,14 @@ export interface TestimonialDto {
     photo: string;
     quote: string;
     position: string;
+}
+
+export interface LecturerDto {
+    id: string;
+    name: string;
+    position: string;
+    description: string;
+    photo: string;
 }
 
 // --- REQUEST HANDLER ---
@@ -89,5 +99,12 @@ export const api = {
     testimonials: {
         // GET: get all testimonials
         getAll: () => apiRequest<TestimonialDto[]>('/testimonials'),
+    },
+    lecturers: {
+        // GET: get all lecturers
+        getAll: () => apiRequest<LecturerDto[]>('/lecturers'),
+        
+        // GET: get lecturer detail
+        getById: (id: string) => apiRequest<LecturerDto>(`/lecturers/${id}`),
     }
 };
