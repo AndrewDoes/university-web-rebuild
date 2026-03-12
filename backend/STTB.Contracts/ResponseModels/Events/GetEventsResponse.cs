@@ -8,7 +8,7 @@ public class GetEventsResponse
 
     public string Image { get; set; }
 
-    public DateTime StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
     public string Time { get; set; }
 

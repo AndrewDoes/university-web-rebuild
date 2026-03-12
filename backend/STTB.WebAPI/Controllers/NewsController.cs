@@ -52,4 +52,47 @@ public class NewsController : ControllerBase
         var result = await _mediator.Send(request, cancellationToken);
         return Ok(result);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateNews([FromBody] CreateNewsRequest request)
+    {
+        var newsId = await _mediator.Send(request);
+
+        return Ok(new
+        {
+            message = "News successfully created",
+            newsId = newsId
+        });
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateNews(Guid id, [FromBody] UpdateNewsRequest request)
+    {
+        request.Id = id;
+
+        var result = await _mediator.Send(request);
+
+        if (!result)
+        {
+            return NotFound("News not found!");
+        }
+
+        return Ok("News updated successfully!");
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteNews(Guid id)
+    {
+        var result = await _mediator.Send(new DeleteNewsRequest
+        {
+            Id = id
+        });
+
+        if (!result)
+        {
+            return NotFound("News not found!");
+        }
+
+        return Ok("News deleted successfully!");
+    }
 }

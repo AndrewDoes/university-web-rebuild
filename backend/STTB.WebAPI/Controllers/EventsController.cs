@@ -46,10 +46,21 @@ public class EventsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("{id}/register")]
-    public async Task<IActionResult> RegisterEvent(Guid id, [FromBody] RegisterEventRequest request)
+    [HttpPost]
+    public async Task<IActionResult> CreateEvent([FromBody] CreateEventRequest request)
     {
-        request.EventId = id;
+        var result = await _mediator.Send(request);
+        return Ok(new
+        {
+            message = "Event successfully registered",
+            eventId = result
+        });
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateEvent(Guid id, [FromBody] UpdateEventRequest request)
+    {
+        request.Id = id;
 
         var result = await _mediator.Send(request);
 
@@ -58,6 +69,22 @@ public class EventsController : ControllerBase
             return NotFound("Event not found!");
         }
 
-        return Ok("Registration successful!");
+        return Ok("Event updated successfully!");
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteEvent(Guid id)
+    {
+        var result = await _mediator.Send(new DeleteEventRequest
+        {
+            Id = id
+        });
+
+        if (!result)
+        {
+            return NotFound("Event not found!");
+        }
+
+        return Ok("Event deleted successfully!");
     }
 }

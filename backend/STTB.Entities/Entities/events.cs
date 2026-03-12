@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace STTB.Entities;
+namespace STTB.Entities.Entities;
 
+[Table("events")]
 public class Event
 {
     public Guid Id { get; set; }
@@ -17,7 +18,7 @@ public class Event
     public string Image { get; set; }
 
     [Column("start_date")]
-    public DateTime StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
     [Column("end_date")]
     public DateTime? EndDate { get; set; }

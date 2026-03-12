@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|d:\\binus_coding\\magang\\project2\\backend\\sttb.webapi\\controllers\\testimonialscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|solutionrelative:sttb.webapi\\controllers\\testimonialscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +23,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TestimonialsController.cs",
+              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.WebAPI\\Controllers\\TestimonialsController.cs",
+              "RelativeDocumentMoniker": "STTB.WebAPI\\Controllers\\TestimonialsController.cs",
+              "ToolTip": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.WebAPI\\Controllers\\TestimonialsController.cs",
+              "RelativeToolTip": "STTB.WebAPI\\Controllers\\TestimonialsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T13:52:26.938Z",
+              "EditorCaption": ""
             }
           ]
         }

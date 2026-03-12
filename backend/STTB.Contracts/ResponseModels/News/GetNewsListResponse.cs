@@ -15,5 +15,5 @@ public class NewsDto
 
     public string Image { get; set; } = string.Empty;
 
-    public DateTime PublishedAt { get; set; }
+    public DateTime? PublishedAt { get; set; }
 }

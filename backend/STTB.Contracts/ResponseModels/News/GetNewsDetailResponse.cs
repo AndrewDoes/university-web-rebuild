@@ -14,5 +14,5 @@ public class GetNewsDetailResponse
 
     public string Author { get; set; }
 
-    public DateTime PublishedAt { get; set; }
+    public DateTime? PublishedAt { get; set; }
 }

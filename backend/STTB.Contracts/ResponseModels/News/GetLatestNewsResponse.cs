@@ -18,5 +18,5 @@ public class LatestNewsItem
     public string Image { get; set; }
 
     [JsonPropertyName("publishedAt")]
-    public DateTime PublishedAt { get; set; }
+    public DateTime? PublishedAt { get; set; }
 }

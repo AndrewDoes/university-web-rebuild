@@ -28,7 +28,7 @@ public class News
     public string Author { get; set; } = string.Empty;
 
     [Column("published_at")]
-    public DateTime PublishedAt { get; set; }
+    public DateTime? PublishedAt { get; set; }
 
     [StringLength(20)]
     public string Status { get; set; } = "draft";

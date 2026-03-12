@@ -1,0 +1,23 @@
+﻿using MediatR;
+
+namespace STTB.Contracts.RequestModels.Events;
+
+public class CreateEventRequest : IRequest<Guid>
+{
+    public string Title { get; set; }
+    public string Slug { get; set; }
+    public string Description { get; set; }
+    public string Content { get; set; }
+    public string Image { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public string Time { get; set; }
+    public string Location { get; set; }
+    public string Speakers { get; set; }
+    public string Agenda { get; set; }
+    public string Price { get; set; }
+    public bool IsFeatured { get; set; }
+    public string Status { get; set; }
+    public int? MaxParticipants { get; set; }
+    public DateTime? RegistrationDeadline { get; set; }
+}

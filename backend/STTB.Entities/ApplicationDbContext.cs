@@ -10,13 +10,9 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    //public DbSet<News> News => Set<News>();
-
     public DbSet<Event> Events { get; set; }
 
     public DbSet<News> News { get; set; }
-
-    public DbSet<EventRegistration> EventRegistrations { get; set; }
 
     public DbSet<Testimonial> Testimonials { get; set; }
 

@@ -1,25 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace STTB.Entities.Entities
+namespace STTB.Entities.Entities;
+
+public class Testimonial
 {
-    public class Testimonial
-    {
-        public Guid Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
-        public string Name { get; set; }
+    [StringLength(100)]
+    public string? Name { get; set; }
 
-        public string Degree { get; set; }
+    [StringLength(50)]
+    public string? Degree { get; set; }
 
-        public string Photo { get; set; }
+    [StringLength(255)]
+    public string? Photo { get; set; }
 
-        public string Quote { get; set; }
+    public string? Quote { get; set; }
 
-        public string Position { get; set; }
+    [StringLength(150)]
+    public string? Position { get; set; }
 
-        [Column("is_featured")]
-        public bool IsFeatured { get; set; }
+    [Column("is_featured")]
+    public bool IsFeatured { get; set; }
 
-        [Column("created_at")]
-        public DateTime CreatedAt { get; set; }
-    }
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
 }
