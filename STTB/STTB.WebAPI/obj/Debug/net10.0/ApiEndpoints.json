@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "STTB.WebAPI.Controllers.ContactController",
+    "Method": "SubmitContact",
+    "RelativePath": "api/contact",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "STTB.Contracts.RequestModels.Contact.CreateContactRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EventsController",
     "Method": "GetEvents",
     "RelativePath": "api/events",
@@ -149,6 +165,42 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "STTB.WebAPI.Controllers.ProgramsController",
+    "Method": "GetPrograms",
+    "RelativePath": "api/programs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "STTB.WebAPI.Controllers.TestimonialsController",
+    "Method": "GetTestimonials",
+    "RelativePath": "api/testimonials",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "STTB.WebAPI.Controllers.TestimonialsController",
+    "Method": "GetFeaturedTestimonials",
+    "RelativePath": "api/testimonials/featured",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "limit",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "STTB.WebAPI.Controllers.WeatherForecastController",

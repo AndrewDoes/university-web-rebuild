@@ -5,13 +5,26 @@ namespace STTB.Entities;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbSet<Event> Events { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
     //public DbSet<News> News => Set<News>();
+
+    public DbSet<Event> Events { get; set; }
+
     public DbSet<News> News { get; set; }
+
     public DbSet<EventRegistration> EventRegistrations { get; set; }
+
+    public DbSet<Testimonial> Testimonials { get; set; }
+
+    public DbSet<Program> Programs { get; set; }
+
+    public DbSet<ProgramFeatures> ProgramFeatures { get; set; }
+
+    public DbSet<ProgramCareers> ProgramCareers { get; set; }
+
+    public DbSet<ContactMessage> ContactMessages { get; set; }
 }

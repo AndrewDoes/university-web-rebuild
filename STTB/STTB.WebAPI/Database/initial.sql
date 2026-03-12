@@ -14,7 +14,7 @@ CREATE TABLE news (
     status VARCHAR(20)
         CHECK (status IN ('draft','published')),
     views INT DEFAULT 0,
-    tags NVARCHAR(MAX), -- bisa simpan JSON atau comma separated
+    tags NVARCHAR(MAX),
     created_at DATETIME DEFAULT GETDATE()
 );
 
@@ -30,8 +30,8 @@ CREATE TABLE events (
     end_date DATE,
     time VARCHAR(50),
     location VARCHAR(150),
-    speakers NVARCHAR(MAX), -- bisa simpan JSON
-    agenda NVARCHAR(MAX), -- JSON
+    speakers NVARCHAR(MAX),
+    agenda NVARCHAR(MAX),
     price VARCHAR(50),
     is_featured BIT DEFAULT 0,
     status VARCHAR(20)
@@ -77,6 +77,26 @@ CREATE TABLE programs (
     duration VARCHAR(50),
     description NVARCHAR(MAX),
     created_at DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE program_features (
+    id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    program_id UNIQUEIDENTIFIER,
+    feature NVARCHAR(200),
+
+    FOREIGN KEY (program_id)
+    REFERENCES programs(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE program_careers (
+    id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    program_id UNIQUEIDENTIFIER,
+    career NVARCHAR(200),
+
+    FOREIGN KEY (program_id)
+    REFERENCES programs(id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE contact_messages (
@@ -519,3 +539,113 @@ VALUES
 400,
 '2026-07-05'
 );
+
+-- testimonials
+INSERT INTO testimonials (name, degree, photo, quote, position, is_featured)
+VALUES
+('Jonathan David', 'S.Th. 2020', '/images/testimonials/jonathan.jpg',
+'STTB membentuk saya bukan hanya secara akademik tetapi juga secara rohani.',
+'Youth Pastor - GKI Jakarta', 1),
+
+('Samuel Wijaya', 'M.Th. 2019', '/images/testimonials/samuel.jpg',
+'Pengalaman belajar di STTB sangat memperlengkapi pelayanan saya.',
+'Lecturer - Bible College Surabaya', 1),
+
+('Daniel Gunawan', 'S.Th. 2021', '/images/testimonials/daniel.jpg',
+'Di STTB saya belajar bagaimana melayani dengan hati dan integritas.',
+'Associate Pastor - Gereja Bethel', 1),
+
+('Maria Susanti', 'M.Th. 2022', '/images/testimonials/maria.jpg',
+'Lingkungan pembelajaran di STTB sangat mendukung pertumbuhan iman.',
+'Missionary - YWAM Indonesia', 1),
+
+('Andreas Setiawan', 'S.Th. 2018', '/images/testimonials/andreas.jpg',
+'Pengajaran para dosen sangat aplikatif dan relevan untuk pelayanan.',
+'Senior Pastor - GPdI Bandung', 0),
+
+('Ruth Natalia', 'M.Th. 2020', '/images/testimonials/ruth.jpg',
+'STTB menolong saya memahami firman Tuhan dengan lebih mendalam.',
+'Bible Teacher - Jakarta', 0),
+
+('Michael Tan', 'S.Th. 2017', '/images/testimonials/michael.jpg',
+'Komunitas di STTB sangat mendukung pertumbuhan karakter.',
+'Church Planter - Batam', 0),
+
+('Deborah Lim', 'M.Th. 2021', '/images/testimonials/deborah.jpg',
+'Selama studi di STTB saya mendapatkan banyak mentor rohani.',
+'Worship Leader - Surabaya', 0),
+
+('Kevin Hartono', 'S.Th. 2019', '/images/testimonials/kevin.jpg',
+'STTB memberikan fondasi teologi yang kuat bagi pelayanan saya.',
+'Campus Pastor - Jakarta', 0),
+
+('Esther Wibowo', 'M.Th. 2018', '/images/testimonials/esther.jpg',
+'Saya sangat bersyukur bisa belajar di STTB bersama para dosen hebat.',
+'Counselor - Christian Ministry', 0),
+
+('Albert Kurniawan', 'S.Th. 2020', '/images/testimonials/albert.jpg',
+'STTB membentuk visi pelayanan saya untuk generasi muda.',
+'Youth Ministry Coordinator', 0),
+
+('Grace Tanudjaja', 'M.Th. 2023', '/images/testimonials/grace.jpg',
+'Setiap kelas di STTB membuka perspektif baru tentang pelayanan.',
+'Bible Study Leader', 0),
+
+('Benny Santoso', 'S.Th. 2016', '/images/testimonials/benny.jpg',
+'Ilmu yang saya dapatkan di STTB masih saya pakai sampai sekarang.',
+'Senior Pastor - Semarang', 0),
+
+('Claudia Hartanto', 'M.Th. 2022', '/images/testimonials/claudia.jpg',
+'STTB adalah tempat yang luar biasa untuk bertumbuh secara rohani.',
+'Mission Volunteer', 0),
+
+('David Gunadi', 'S.Th. 2019', '/images/testimonials/david.jpg',
+'Belajar di STTB memberi saya kejelasan panggilan pelayanan.',
+'Church Leader - Medan', 0);
+
+-- programs (sekalian dengan program career dan feature)
+INSERT INTO programs (title, degree, duration, description)
+VALUES
+('Sarjana Teologi', 'S.Th.', '4 Tahun', 'Program sarjana yang mempersiapkan mahasiswa untuk pelayanan gereja dan studi teologi secara akademis.'),
+('Magister Teologi', 'M.Th.', '2 Tahun', 'Program magister untuk memperdalam studi teologi dan penelitian pelayanan gerejawi.'),
+('Diploma Pelayanan', 'A.Md.', '3 Tahun', 'Program diploma yang berfokus pada keterampilan praktis dalam pelayanan gereja.');
+
+
+INSERT INTO program_features (program_id, feature) VALUES
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Teologi Sistematik'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Bahasa Yunani'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Homiletika'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Etika Kristen'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Penggembalaan Jemaat'),
+
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Penelitian Teologi Lanjutan'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Teologi Kontekstual'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Hermeneutika Alkitab'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Kepemimpinan Gereja'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Pengembangan Pelayanan'),
+
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Dasar Pelayanan Gereja'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Pelayanan Musik Gereja'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Administrasi Gereja'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Pelayanan Anak'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Pelayanan Pemuda');
+
+
+INSERT INTO program_careers (program_id, career) VALUES
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Pendeta'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Guru Agama Kristen'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Penginjil'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Pelayan Gereja'),
+((SELECT id FROM programs WHERE title='Sarjana Teologi'), 'Misionaris'),
+
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Dosen Teologi'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Peneliti Teologi'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Pemimpin Gereja'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Konsultan Pelayanan'),
+((SELECT id FROM programs WHERE title='Magister Teologi'), 'Penulis Buku Teologi'),
+
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Pelayan Musik Gereja'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Administrator Gereja'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Pembina Remaja'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Koordinator Pelayanan'),
+((SELECT id FROM programs WHERE title='Diploma Pelayanan'), 'Staff Pelayanan Gereja');
