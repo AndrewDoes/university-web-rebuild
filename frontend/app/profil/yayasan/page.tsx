@@ -46,14 +46,11 @@ const YayasanPage: React.FC = () => {
         <div className="bg-background min-h-screen">
             {/* --- HERO HEADER --- */}
             <div className="relative bg-primary py-24 lg:py-32 top-20 overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none">
-                    <div className="grid grid-cols-12 h-full w-full">
-                        {[...Array(12)].map((_, i) => (
-                            <div key={i} className="border-r border-primary-foreground/10 h-full" />
-                        ))}
-                    </div>
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+                    <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[140%] bg-secondary rounded-full blur-[120px] mix-blend-overlay"></div>
+                    <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[120%] bg-primary-foreground rounded-full blur-[100px] mix-blend-overlay"></div>
                 </div>
-
+                
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="flex items-center space-x-4 mb-4 text-secondary">
                         <GanttChart size={20} />

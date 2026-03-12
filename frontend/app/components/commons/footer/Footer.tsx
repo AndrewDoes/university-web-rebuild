@@ -202,7 +202,7 @@ const Footer: React.FC = () => {
             <div className="bg-primary text-primary-foreground py-12 relative overflow-hidden">
                 {/* Subtle Watermark */}
                 <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-y-1/4 translate-x-1/4">
-                    <img src="https://sttb.ac.id/storage/2023/11/Logo-STTB-2023.png" alt="" className="w-96" />
+                    <img src="https://sis.sttb.ac.id/images_siakad/metroui/logo-siakad.png" alt="" className="w-96" />
                 </div>
 
                 <div className="container mx-auto px-6 relative z-10">

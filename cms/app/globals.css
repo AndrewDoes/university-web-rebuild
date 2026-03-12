@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+
+  /* TEXT */
+  --text: #00020a;
+
+  /* --- REFINED ENTERPRISE (LIGHT) --- */
+  --background: #f8fafc;
+  --foreground: #020617;
+
+  /* Sidebar - Clean White with Border */
+  --sidebar-bg: #ffffff;
+  --sidebar-foreground: #64748b;
+
+  /* Primary - Sharp Indigo */
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+
+  /* Accent - Soft Cyan */
+  --secondary: #0891b2;
+  --secondary-foreground: #ffffff;
+
+  /* Surfaces */
+  --card: #ffffff;
+  --card-foreground: #020617;
+  --border: #e2e8f0;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --danger: #fb2c36;
+  --danger-foreground: #ffff;
+
+  --shadow-color: 220 38% 10%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* --- MIDNIGHT TECH (DARK) --- */
+    --text: #dadada;
+
+    --background: #020617;
+    --foreground: #f8fafc;
+
+    --sidebar-bg: #000000;
+    --sidebar-foreground: #94a3b8;
+
+    --primary: #6366f1;
+    --primary-foreground: #ffffff;
+
+    --card: #0f172a;
+    --card-foreground: #f8fafc;
+    --border: #1e293b;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+
+
+    --danger: #960008;
+    --danger-foreground: #e1e1e1;
+
+    --shadow-color: 0 0% 0%;
+  }
+}
+
+@theme {
+  --color-text: var(--text);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-danger: var(--danger);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    @apply antialiased transition-colors duration-300;
+  }
+}

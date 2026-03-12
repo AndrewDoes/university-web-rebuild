@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
                 { label: 'Magister Ministri Marketplace', href: '/prodi/s2-ministri-marketplace' },
                 { label: 'Magister Ministri Kepemimpinan Pastoral', href: '/prodi/s2-ministri-kepemimpinan' },
                 { label: 'Magister Ministri Teologi Pelayanan Gerejawi', href: '/prodi/s2-ministri-gerejawi' },
-                { label: 'Kalender Akademik', href: '/akademik/kalender' },
+                { label: 'Kalender Akademik', href: '/under-development' },
             ]
         },
         {
@@ -210,13 +210,13 @@ const Navbar: React.FC = () => {
                     {/* Desktop Actions */}
                     <div className="hidden lg:flex items-center space-x-4">
                         <a
-                            href="/contact"
+                            href="/under-development"
                             className="text-foreground hover:text-primary font-bold text-[13px] uppercase tracking-wide transition-colors flex items-center no-underline"
                         >
                             KONTAK KAMI
                         </a>
                         <a
-                            href="/login"
+                            href="/under-development"
                             className="bg-primary text-primary-foreground px-8 py-2.5 rounded-sm hover:opacity-90 transition-all font-bold text-xs tracking-widest uppercase shadow-sm hover:shadow-md active:scale-95 inline-flex items-center no-underline"
                         >
                             <User size={14} className="mr-2" /> LOGIN

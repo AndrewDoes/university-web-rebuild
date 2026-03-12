@@ -13,7 +13,7 @@ import {
 
 const UnderDevelopmentPage: React.FC = () => {
     return (
-        <div className="bg-background min-h-[80vh] flex items-center justify-center font-sans py-20">
+        <div className="bg-background min-h-[80vh] flex items-center justify-center font-sans pt-40 pb-20">
             <div className="container mx-auto px-6 relative">
                 {/* Background Blueprint Accents */}
                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden">

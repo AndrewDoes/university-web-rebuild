@@ -101,15 +101,11 @@ const S2MinistriGerejawiPage: React.FC = () => {
         <div className="bg-background min-h-screen font-sans">
             {/* --- HERO SECTION --- */}
             <section className="relative w-full min-h-[60vh] flex items-center bg-primary overflow-hidden">
-                <div className="absolute inset-0 opacity-20 z-0">
-                    <img
-                        src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=2073&auto=format&fit=crop"
-                        alt="Church Ministry Background"
-                        className="w-full h-full object-cover grayscale"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-r from-primary via-primary/80 to-transparent" />
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+                    <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[140%] bg-secondary rounded-full blur-[120px] mix-blend-overlay"></div>
+                    <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[120%] bg-primary-foreground rounded-full blur-[100px] mix-blend-overlay"></div>
                 </div>
-
+                
                 <div className="container mx-auto px-6 relative z-10 py-20">
                     <div className="max-w-4xl space-y-8">
                         <div className="inline-flex items-center space-x-3 bg-primary-foreground/10 border border-secondary/30 px-4 py-1.5 rounded-full">
