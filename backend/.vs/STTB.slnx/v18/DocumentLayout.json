@@ -1,21 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\",
+  "WorkspaceRootPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|d:\\binus_coding\\magang\\university-web-rebuild\\backend\\sttb.webapi\\controllers\\testimonialscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|solutionrelative:sttb.webapi\\controllers\\testimonialscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|d:\\binus_coding\\magang\\university-web-rebuild\\backend\\sttb.webapi\\controllers\\programscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|solutionrelative:sttb.webapi\\controllers\\programscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|d:\\binus_coding\\magang\\university-web-rebuild\\backend\\sttb.webapi\\controllers\\eventscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|d:\\binus_coding\\magang\\project2\\backend\\sttb.webapi\\controllers\\eventscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{079C04AC-05D0-AD52-AFF7-C8265EAD4A13}|STTB.WebAPI\\STTB.WebAPI.csproj|solutionrelative:sttb.webapi\\controllers\\eventscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DA830044-C8FB-9119-78F9-FEFE18F15303}|STTB.Contracts\\STTB.Contracts.csproj|d:\\binus_coding\\magang\\university-web-rebuild\\backend\\sttb.contracts\\requestmodels\\events\\getupcomingeventsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DA830044-C8FB-9119-78F9-FEFE18F15303}|STTB.Contracts\\STTB.Contracts.csproj|d:\\binus_coding\\magang\\project2\\backend\\sttb.contracts\\requestmodels\\events\\getupcomingeventsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DA830044-C8FB-9119-78F9-FEFE18F15303}|STTB.Contracts\\STTB.Contracts.csproj|solutionrelative:sttb.contracts\\requestmodels\\events\\getupcomingeventsrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -31,36 +23,10 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TestimonialsController.cs",
-              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.WebAPI\\Controllers\\TestimonialsController.cs",
-              "RelativeDocumentMoniker": "STTB.WebAPI\\Controllers\\TestimonialsController.cs",
-              "ToolTip": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.WebAPI\\Controllers\\TestimonialsController.cs",
-              "RelativeToolTip": "STTB.WebAPI\\Controllers\\TestimonialsController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T08:29:53.373Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProgramsController.cs",
-              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.WebAPI\\Controllers\\ProgramsController.cs",
-              "RelativeDocumentMoniker": "STTB.WebAPI\\Controllers\\ProgramsController.cs",
-              "ToolTip": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.WebAPI\\Controllers\\ProgramsController.cs",
-              "RelativeToolTip": "STTB.WebAPI\\Controllers\\ProgramsController.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T08:29:50.902Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "EventsController.cs",
-              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.WebAPI\\Controllers\\EventsController.cs",
+              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.WebAPI\\Controllers\\EventsController.cs",
               "RelativeDocumentMoniker": "STTB.WebAPI\\Controllers\\EventsController.cs",
-              "ToolTip": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.WebAPI\\Controllers\\EventsController.cs",
+              "ToolTip": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.WebAPI\\Controllers\\EventsController.cs",
               "RelativeToolTip": "STTB.WebAPI\\Controllers\\EventsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -69,15 +35,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "GetUpcomingEventsRequest.cs",
-              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
+              "DocumentMoniker": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
               "RelativeDocumentMoniker": "STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
-              "ToolTip": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
+              "ToolTip": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
               "RelativeToolTip": "STTB.Contracts\\RequestModels\\Events\\GetUpcomingEventsRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-12T08:27:01.839Z"
+              "WhenOpened": "2026-03-12T08:27:01.839Z",
+              "EditorCaption": ""
             }
           ]
         },

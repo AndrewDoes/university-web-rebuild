@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Entities\\STTB.Entities.csproj": {}
+    "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Entities\\STTB.Entities.csproj": {}
   },
   "projects": {
-    "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Entities\\STTB.Entities.csproj": {
+    "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Entities\\STTB.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Entities\\STTB.Entities.csproj",
+        "projectUniqueName": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Entities\\STTB.Entities.csproj",
         "projectName": "STTB.Entities",
-        "projectPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Entities\\STTB.Entities.csproj",
+        "projectPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Entities\\STTB.Entities.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Entities\\obj\\",
+        "outputPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

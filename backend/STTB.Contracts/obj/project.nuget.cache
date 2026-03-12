@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "omHoXUxBFAg=",
+  "dgSpecHash": "JtClcYwWcOk=",
   "success": true,
-  "projectFilePath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\STTB.Contracts.csproj",
+  "projectFilePath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\STTB.Contracts.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\mediatr\\14.1.0\\mediatr.14.1.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

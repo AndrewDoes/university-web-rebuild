@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\STTB.Contracts.csproj": {}
+    "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\STTB.Contracts.csproj": {}
   },
   "projects": {
-    "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\STTB.Contracts.csproj": {
+    "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\STTB.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\STTB.Contracts.csproj",
+        "projectUniqueName": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\STTB.Contracts.csproj",
         "projectName": "STTB.Contracts",
-        "projectPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\STTB.Contracts.csproj",
+        "projectPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\STTB.Contracts.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Contracts\\obj\\",
+        "outputPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

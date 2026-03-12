@@ -89,11 +89,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Hangfire\\STTB.Hangfire.csproj",
+      "projectUniqueName": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Hangfire\\STTB.Hangfire.csproj",
       "projectName": "STTB.Hangfire",
-      "projectPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Hangfire\\STTB.Hangfire.csproj",
+      "projectPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Hangfire\\STTB.Hangfire.csproj",
       "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Hangfire\\obj\\",
+      "outputPath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Hangfire\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UubToJ7DrwI=",
+  "dgSpecHash": "qM6htwFF2rM=",
   "success": true,
-  "projectFilePath": "D:\\BINUS_CODING\\Magang\\university-web-rebuild\\backend\\STTB.Entities\\STTB.Entities.csproj",
+  "projectFilePath": "D:\\BINUS_CODING\\Magang\\Project2\\backend\\STTB.Entities\\STTB.Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
