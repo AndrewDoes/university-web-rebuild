@@ -36,6 +36,11 @@ export default function EventDetailPage() {
         <main className="min-h-screen bg-background font-sans text-foreground">
             {/* --- ACADEMIC HERO HEADER --- */}
             <section className="bg-primary pt-40 pb-24 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
+                    <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[140%] bg-secondary rounded-full blur-[120px] mix-blend-overlay"></div>
+                    <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[120%] bg-primary-foreground rounded-full blur-[100px] mix-blend-overlay"></div>
+                </div>
+                
                 <div className="container mx-auto px-6 relative z-10">
                     <Link href="/kegiatan" className="inline-flex items-center gap-2 text-text-alt/60 hover:text-secondary transition-colors mb-8 no-underline text-xs uppercase font-bold tracking-[0.3em]">
                         <ArrowLeft size={16} /> Kembali ke Kalender
