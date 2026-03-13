@@ -96,20 +96,6 @@ export default function CreateNewsPage() {
                         />
                     </div>
 
-                    <div className="space-y-2 text-left">
-                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
-                            <Tag size={12} className="text-primary" /> Status
-                        </label>
-                        <select
-                            value={formData.status}
-                            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            className="w-full bg-background border border-border p-4 rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 appearance-none"
-                        >
-                            <option value="draft">Draft</option>
-                            <option value="published">Published</option>
-                        </select>
-                    </div>
-
                     <div className="md:col-span-2 space-y-2 text-left">
                         <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
                             <ImageIcon size={12} className="text-primary" /> URL Thumbnail

@@ -8,6 +8,8 @@ public class GetEventsResponse
 
     public string Image { get; set; }
 
+    public string Description { get; set; } = string.Empty;
+
     public DateTime StartDate { get; set; }
 
     public string Time { get; set; }

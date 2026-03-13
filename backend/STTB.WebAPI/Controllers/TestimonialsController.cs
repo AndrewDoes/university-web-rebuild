@@ -67,4 +67,4 @@ namespace STTB.WebAPI.Controllers
             return Ok(result);
         }
     }
-}
+}

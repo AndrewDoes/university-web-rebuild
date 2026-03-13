@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;

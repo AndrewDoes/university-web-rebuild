@@ -14,7 +14,6 @@ export interface NewsDto {
     publishedAt: string;
     category?: string;
     slug?: string;
-    status?: string;
 }
 
 export interface NewsDetailDto extends NewsDto {

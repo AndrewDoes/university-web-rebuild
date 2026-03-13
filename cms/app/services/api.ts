@@ -12,6 +12,7 @@ export interface NewsDto {
     title: string;
     excerpt: string;
     image: string;
+    description?: string;
     publishedAt: string;
     category?: string;
     author?: string;
@@ -156,4 +157,4 @@ export const api = {
             method: 'DELETE'
         }),
     }
-};
+};

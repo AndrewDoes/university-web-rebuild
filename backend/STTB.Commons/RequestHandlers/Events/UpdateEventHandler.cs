@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.Events;
 using STTB.Contracts.ResponseModels.Events;
 using STTB.Entities;
@@ -16,11 +17,14 @@ public class UpdateEventHandler : IRequestHandler<UpdateEventRequest, UpdateEven
         var ev = await _db.Events.FindAsync([request.Id], cancellationToken)
             ?? throw new KeyNotFoundException($"Event with id {request.Id} not found.");
 
+        var baseSlug = string.IsNullOrWhiteSpace(request.Slug)
+            ? GenerateSlug(request.Title)
+            : GenerateSlug(request.Slug);
+
+        var slug = await GenerateUniqueSlugAsync(baseSlug, request.Id, cancellationToken);
+
         ev.Title = request.Title;
-        
-        ev.Slug = string.IsNullOrWhiteSpace(request.Slug) 
-            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
-            : request.Slug;
+        ev.Slug = slug;
         ev.Description = request.Description ?? string.Empty;
         ev.Content = request.Content ?? string.Empty;
         ev.Image = request.Image ?? string.Empty;
@@ -46,5 +50,29 @@ public class UpdateEventHandler : IRequestHandler<UpdateEventRequest, UpdateEven
             Status = ev.Status,
             CreatedAt = ev.CreatedAt
         };
+    }
+
+    private static string GenerateSlug(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return Guid.NewGuid().ToString();
+
+        return text.Trim()
+            .ToLower()
+            .Replace(" ", "-");
+    }
+
+    private async Task<string> GenerateUniqueSlugAsync(string baseSlug, Guid currentId, CancellationToken cancellationToken)
+    {
+        var slug = baseSlug;
+        var counter = 1;
+
+        while (await _db.Events.AnyAsync(x => x.Slug == slug && x.Id != currentId, cancellationToken))
+        {
+            slug = $"{baseSlug}-{counter}";
+            counter++;
+        }
+
+        return slug;
     }
 }

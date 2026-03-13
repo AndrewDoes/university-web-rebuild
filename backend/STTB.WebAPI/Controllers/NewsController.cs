@@ -92,4 +92,4 @@ public class NewsController : ControllerBase
 
         return Ok(result);
     }
-}
+}
