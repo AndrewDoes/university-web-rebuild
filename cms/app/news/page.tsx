@@ -180,22 +180,20 @@ export default function NewsListPage() {
                 <div className="flex bg-muted p-1 rounded-xl">
                     <button
                         onClick={() => setActiveTab('published')}
-                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${
-                            activeTab === 'published'
-                                ? 'bg-card shadow-sm text-foreground'
-                                : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'published'
+                            ? 'bg-card shadow-sm text-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                            }`}
                     >
                         Published
                     </button>
 
                     <button
                         onClick={() => setActiveTab('draft')}
-                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${
-                            activeTab === 'draft'
-                                ? 'bg-card shadow-sm text-foreground'
-                                : 'text-muted-foreground hover:text-foreground'
-                        }`}
+                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'draft'
+                            ? 'bg-card shadow-sm text-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                            }`}
                     >
                         Drafts
                     </button>
@@ -285,7 +283,7 @@ export default function NewsListPage() {
 
             {/* MODAL */}
             {modalOpen && (
-                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-auto">
+                <div className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm flex items-center justify-center mt-20 p-4 overflow-auto">
                     <div className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-2xl my-8">
                         <div className="flex items-center justify-between p-6 border-b border-border">
                             <div className="flex items-center gap-3">
@@ -300,7 +298,24 @@ export default function NewsListPage() {
                             {field("Judul Berita *", <Type size={14} className="text-primary" />, 'title', 'Contoh: STTB Gelar Wisuda Angkatan ke-20')}
                             {field("URL Gambar", <ImageIcon size={14} className="text-primary" />, 'image', 'https://...')}
                             <div className="grid grid-cols-2 gap-4">
-                                {field("Kategori", <Newspaper size={14} className="text-primary" />, 'category', 'Akademik / Institusi')}
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                        <Newspaper size={14} className="text-primary" /> Kategori
+                                    </label>
+                                    <select
+                                        value={formData.category || ''}
+                                        onChange={e => setFormData(p => ({ ...p, category: e.target.value }))}
+                                        className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all"
+                                    >
+                                        <option value="" disabled>Pilih Kategori...</option>
+                                        <option value="Akademik">Akademik</option>
+                                        <option value="Kemahasiswaan">Kemahasiswaan</option>
+                                        <option value="Pengumuman">Pengumuman</option>
+                                        <option value="Prestasi">Prestasi</option>
+                                        <option value="Berita Kampus">Berita Kampus</option>
+                                        <option value="Umum">Umum</option>
+                                    </select>
+                                </div>
                                 {field("Penulis", <FileText size={14} className="text-primary" />, 'author', 'Nama Penulis')}
                             </div>
                             <div className="space-y-2">
