@@ -1,4 +1,6 @@
-﻿namespace STTB.Contracts.ResponseModels.News;
+using STTB.Contracts.ResponseModels.NewsCategories;
+
+namespace STTB.Contracts.ResponseModels.News;
 
 public class GetNewsDetailResponse
 {
@@ -10,7 +12,7 @@ public class GetNewsDetailResponse
 
     public string Image { get; set; }
 
-    public string Category { get; set; }
+    public NewsCategoryDto? Category { get; set; }
 
     public string Author { get; set; }
 

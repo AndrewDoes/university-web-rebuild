@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using STTB.Contracts.ResponseModels.NewsCategories;
 using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
@@ -21,6 +22,7 @@ public class GetNewsDetailHandler
         CancellationToken cancellationToken)
     {
         var news = await _context.News
+            .Include(x => x.Category)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (news == null)
@@ -32,7 +34,12 @@ public class GetNewsDetailHandler
             Title = news.Title,
             Content = news.Content,
             Image = news.Image,
-            Category = news.Category,
+            Category = news.Category != null ? new NewsCategoryDto
+            {
+                Id = news.Category.Id,
+                Name = news.Category.Name,
+                Slug = news.Category.Slug
+            } : null,
             Author = news.Author,
             PublishedAt = news.PublishedAt
         };

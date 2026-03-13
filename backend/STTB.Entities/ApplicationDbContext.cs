@@ -14,6 +14,8 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<News> News { get; set; }
 
+    public DbSet<NewsCategory> NewsCategories { get; set; }
+
     public DbSet<EventRegistration> EventRegistrations { get; set; }
 
     public DbSet<Testimonial> Testimonials { get; set; }

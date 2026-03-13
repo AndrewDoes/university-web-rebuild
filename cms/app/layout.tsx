@@ -23,6 +23,8 @@ export default function AdminLayout({
       const path = window.location.pathname;
       if (path === '/') {
         setPageMeta({ title: 'Dashboard Overview', breadcrumb: [] });
+      } else if (path.includes('/news/categories')) {
+        setPageMeta({ title: 'Kategori Berita', breadcrumb: ['Berita & Media', 'Kategori'] });
       } else if (path.includes('/news')) {
         setPageMeta({ title: 'Manajemen Berita', breadcrumb: ['Berita & Media'] });
       } else if (path.includes('/events')) {

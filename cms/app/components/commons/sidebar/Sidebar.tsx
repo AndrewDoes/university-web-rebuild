@@ -23,6 +23,7 @@ interface SidebarProps {
 const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} />, href: '/' },
     { id: 'news', label: 'Berita & Media', icon: <Newspaper size={20} />, href: '/news' },
+    { id: 'news-categories', label: 'Kategori Berita', icon: <Group size={20} />, href: '/news/categories' },
     { id: 'events', label: 'Agenda Kampus', icon: <Calendar size={20} />, href: '/events' },
     { id: 'testimonial', label: 'Testimoni', icon: <MessageSquareQuote size={20} />, href: '/testimonial' },
     { id: 'dosen', label: 'Manajemen Dosen', icon: <Users size={20} />, href: '/lecturers' },

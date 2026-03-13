@@ -22,7 +22,7 @@ const NewsMedia: React.FC = () => {
         fetchNews();
     }, []);
 
-    const filteredNews = activeCat === "All" ? newsItems : newsItems.filter(n => n.category === activeCat);
+    const filteredNews = activeCat === "All" ? newsItems : newsItems.filter(n => n.category?.name === activeCat);
     const featured = filteredNews[0];
     const sidebarItems = filteredNews.slice(1);
 

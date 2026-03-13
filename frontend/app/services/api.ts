@@ -12,8 +12,15 @@ export interface NewsDto {
     excerpt: string;
     image: string;
     publishedAt: string;
-    category?: string;
+    category?: NewsCategoryDto;
+    categoryId?: string;
     slug?: string;
+}
+
+export interface NewsCategoryDto {
+    id: string;
+    name: string;
+    slug: string;
 }
 
 export interface NewsDetailDto extends NewsDto {

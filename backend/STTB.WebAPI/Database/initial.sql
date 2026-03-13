@@ -18,6 +18,13 @@ INSERT INTO lecturers (name, position, description, photo) VALUES
 
 
 
+CREATE TABLE NewsCategories (
+    id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) UNIQUE,
+    created_at DATETIME DEFAULT GETDATE()
+);
+
 CREATE TABLE news (
     id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     title VARCHAR(100) NOT NULL,
@@ -25,15 +32,18 @@ CREATE TABLE news (
     excerpt NVARCHAR(MAX),
     content NVARCHAR(MAX),
     image VARCHAR(255),
-    category VARCHAR(50)
-        CHECK (category IN ('Institusi','Akademik','Kegiatan','Rohani')),
+    CategoryId UNIQUEIDENTIFIER NOT NULL,
     author VARCHAR(100),
     published_at DATE,
     status VARCHAR(20)
         CHECK (status IN ('draft','published')),
     views INT DEFAULT 0,
     tags NVARCHAR(MAX),
-    created_at DATETIME DEFAULT GETDATE()
+    created_at DATETIME DEFAULT GETDATE(),
+
+    CONSTRAINT fk_news_category
+        FOREIGN KEY (CategoryId)
+        REFERENCES NewsCategories(id)
 );
 
 
@@ -131,14 +141,21 @@ CREATE TABLE contact_messages (
 );
 
 -- isi data
+-- news categories
+INSERT INTO NewsCategories (name, slug) VALUES
+('Institusi', 'institusi'),
+('Kegiatan', 'kegiatan'),
+('Akademik', 'akademik'),
+('Rohani', 'rohani');
+
 --news
-INSERT INTO news (title, slug, excerpt, content, category, author, published_at, status)
+INSERT INTO news (title, slug, excerpt, content, CategoryId, author, published_at, status)
 VALUES
 ('STTB Membuka Program Studi Baru',
 'sttb-membuka-program-studi-baru',
 'STTB resmi membuka program studi baru.',
 'STTB mengumumkan pembukaan program studi baru guna menjawab kebutuhan pelayanan gereja masa kini.',
-'Institusi',
+(SELECT id FROM NewsCategories WHERE name='Institusi'),
 'Admin',
 '2025-01-10',
 'published'),
@@ -147,7 +164,7 @@ VALUES
 'seminar-teologi-nasional-2025',
 'Seminar nasional teologi akan diadakan di STTB.',
 'Seminar ini menghadirkan berbagai pembicara dari kalangan teolog dan pemimpin gereja.',
-'Kegiatan',
+(SELECT id FROM NewsCategories WHERE name='Kegiatan'),
 'Admin',
 '2025-01-15',
 'published'),
@@ -156,7 +173,7 @@ VALUES
 'mahasiswa-sttb-bakti-sosial',
 'Mahasiswa STTB melakukan kegiatan bakti sosial.',
 'Kegiatan ini meliputi pembagian sembako dan pelayanan doa bagi masyarakat sekitar.',
-'Kegiatan',
+(SELECT id FROM NewsCategories WHERE name='Kegiatan'),
 'Admin',
 '2025-02-02',
 'published'),
@@ -165,7 +182,7 @@ VALUES
 'kuliah-umum-pendeta-tamu',
 'Kuliah umum menghadirkan pembicara dari luar negeri.',
 'Mahasiswa mendapatkan wawasan baru mengenai perkembangan pelayanan gereja global.',
-'Akademik',
+(SELECT id FROM NewsCategories WHERE name='Akademik'),
 'Dosen',
 '2025-02-12',
 'published'),
@@ -174,7 +191,7 @@ VALUES
 'retret-rohani-mahasiswa-sttb',
 'Mahasiswa mengikuti retret rohani tahunan.',
 'Retret ini bertujuan memperdalam kehidupan spiritual mahasiswa.',
-'Rohani',
+(SELECT id FROM NewsCategories WHERE name='Rohani'),
 'Admin',
 '2025-02-20',
 'published'),
@@ -183,7 +200,7 @@ VALUES
 'pelantikan-ketua-senat-mahasiswa',
 'Pelantikan ketua senat mahasiswa periode baru.',
 'Acara pelantikan dihadiri oleh pimpinan kampus dan seluruh mahasiswa.',
-'Institusi',
+(SELECT id FROM NewsCategories WHERE name='Institusi'),
 'Admin',
 '2025-03-01',
 'published'),
@@ -192,7 +209,7 @@ VALUES
 'workshop-penulisan-teologi',
 'Workshop untuk meningkatkan kemampuan menulis teologi.',
 'Mahasiswa dilatih menulis karya ilmiah yang dapat dipublikasikan.',
-'Akademik',
+(SELECT id FROM NewsCategories WHERE name='Akademik'),
 'Dosen',
 '2025-03-05',
 'published'),
@@ -201,7 +218,7 @@ VALUES
 'perayaan-natal-sttb',
 'STTB merayakan Natal bersama.',
 'Perayaan Natal diisi dengan ibadah, pujian, dan drama Natal.',
-'Rohani',
+(SELECT id FROM NewsCategories WHERE name='Rohani'),
 'Admin',
 '2024-12-25',
 'published'),
@@ -210,7 +227,7 @@ VALUES
 'kerjasama-sttb-gereja-lokal',
 'Kerjasama pelayanan dengan beberapa gereja.',
 'Kerjasama ini membuka kesempatan pelayanan bagi mahasiswa.',
-'Institusi',
+(SELECT id FROM NewsCategories WHERE name='Institusi'),
 'Admin',
 '2025-03-10',
 'published'),
@@ -219,7 +236,7 @@ VALUES
 'doa-pagi-mahasiswa',
 'Mahasiswa rutin mengadakan doa pagi.',
 'Doa pagi menjadi sarana membangun kehidupan rohani mahasiswa.',
-'Rohani',
+(SELECT id FROM NewsCategories WHERE name='Rohani'),
 'Admin',
 '2025-03-12',
 'published'),
@@ -228,7 +245,7 @@ VALUES
 'pelatihan-kepemimpinan-mahasiswa',
 'Mahasiswa mengikuti pelatihan kepemimpinan.',
 'Pelatihan ini bertujuan mempersiapkan mahasiswa menjadi pemimpin pelayanan.',
-'Akademik',
+(SELECT id FROM NewsCategories WHERE name='Akademik'),
 'Dosen',
 '2025-03-15',
 'published'),
@@ -237,7 +254,7 @@ VALUES
 'ibadah-syukur-awal-semester',
 'STTB mengadakan ibadah syukur.',
 'Ibadah ini menjadi pembukaan semester baru bagi seluruh mahasiswa.',
-'Rohani',
+(SELECT id FROM NewsCategories WHERE name='Rohani'),
 'Admin',
 '2025-01-05',
 'published'),
@@ -246,7 +263,7 @@ VALUES
 'kunjungan-pelayanan-gereja-mitra',
 'Mahasiswa melakukan kunjungan pelayanan.',
 'Kunjungan ini menjadi bagian dari program praktik pelayanan mahasiswa.',
-'Kegiatan',
+(SELECT id FROM NewsCategories WHERE name='Kegiatan'),
 'Admin',
 '2025-02-25',
 'published'),
@@ -255,7 +272,7 @@ VALUES
 'diskusi-teologi-kontemporer',
 'Diskusi mengenai isu teologi masa kini.',
 'Mahasiswa dan dosen berdiskusi mengenai tantangan teologi modern.',
-'Akademik',
+(SELECT id FROM NewsCategories WHERE name='Akademik'),
 'Dosen',
 '2025-03-18',
 'published'),
@@ -264,7 +281,7 @@ VALUES
 'pengabdian-masyarakat-sttb',
 'Mahasiswa melakukan kegiatan pengabdian masyarakat.',
 'Program ini meliputi pelayanan rohani dan bantuan sosial.',
-'Kegiatan',
+(SELECT id FROM NewsCategories WHERE name='Kegiatan'),
 'Admin',
 '2025-03-20',
 'published');

@@ -24,7 +24,7 @@ public class UpdateNewsHandler : IRequestHandler<UpdateNewsRequest, UpdateNewsRe
         news.Excerpt = request.Excerpt;
         news.Content = request.Content;
         news.Image = request.Image;
-        news.Category = request.Category;
+        news.CategoryId = request.CategoryId;
         news.Author = request.Author;
         news.PublishedAt = request.PublishedAt;
         news.Status = request.Status.Trim().ToLower();

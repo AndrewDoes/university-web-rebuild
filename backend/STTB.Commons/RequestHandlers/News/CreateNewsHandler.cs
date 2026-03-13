@@ -35,7 +35,7 @@ public class CreateNewsHandler : IRequestHandler<CreateNewsRequest, CreateNewsRe
             Excerpt = request.Excerpt,
             Content = request.Content,
             Image = request.Image,
-            Category = request.Category,
+            CategoryId = request.CategoryId,
             Author = request.Author,
             PublishedAt = request.PublishedAt,
             Status = request.Status.Trim().ToLower(),

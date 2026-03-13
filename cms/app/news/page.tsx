@@ -4,7 +4,7 @@ import {
     Newspaper, Plus, Search, Edit2, Trash2,
     Calendar, Loader2, AlertCircle, X, Save, FileText, Image as ImageIcon, Type
 } from 'lucide-react';
-import { api, NewsDto, NewsDetailDto } from '../services/api';
+import { api, NewsDto, NewsDetailDto, NewsCategoryDto } from '../services/api';
 
 const EMPTY_FORM: Partial<NewsDetailDto> = {
     title: '',
@@ -12,7 +12,7 @@ const EMPTY_FORM: Partial<NewsDetailDto> = {
     content: '',
     image: '',
     author: '',
-    category: '',
+    categoryId: '',
     tags: '',
     slug: '',
     publishedAt: '',
@@ -29,6 +29,7 @@ export default function NewsListPage() {
     const [formData, setFormData] = useState<Partial<NewsDetailDto>>(EMPTY_FORM);
     const [saving, setSaving] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [categories, setCategories] = useState<NewsCategoryDto[]>([]);
 
     const [activeTab, setActiveTab] = useState<'published' | 'draft'>('published');
 
@@ -45,7 +46,19 @@ export default function NewsListPage() {
         }
     };
 
-    useEffect(() => { fetchNews(); }, []);
+    const fetchCategories = async () => {
+        try {
+            const response = await api.newsCategories.getAll();
+            setCategories(response.categories || []);
+        } catch (error) {
+            console.error("Gagal memuat kategori:", error);
+        }
+    };
+
+    useEffect(() => { 
+        fetchNews();
+        fetchCategories();
+    }, []);
 
     const openCreate = () => {
         setEditingItem(null);
@@ -63,7 +76,7 @@ export default function NewsListPage() {
                 content: detail.content || '',
                 image: detail.image || '',
                 author: detail.author || '',
-                category: detail.category || '',
+                categoryId: detail.category?.id || '',
                 tags: detail.tags || '',
                 slug: detail.slug || '',
                 publishedAt: detail.publishedAt || '',
@@ -75,8 +88,8 @@ export default function NewsListPage() {
                 excerpt: item.excerpt || '',
                 image: item.image || '',
                 author: item.author || '',
-                category: item.category || '',
-                tags: item.tags || '',
+                categoryId: item.category?.id || '',
+                tags: item.category?.name || '',
                 slug: item.slug || '',
                 publishedAt: item.publishedAt || '',
                 status: item.status?.trim().toLowerCase() || 'draft'
@@ -248,7 +261,7 @@ export default function NewsListPage() {
                                     <tr key={item.id} className="hover:bg-muted/20 transition-colors group">
                                         <td className="px-8 py-6">
                                             <p className="text-sm font-bold text-foreground uppercase tracking-tight line-clamp-1">{item.title}</p>
-                                            {item.category && <span className="text-[9px] font-bold text-primary uppercase tracking-[0.2em]">{item.category}</span>}
+                                            {item.category?.name && <span className="text-[9px] font-bold text-primary uppercase tracking-[0.2em]">{item.category.name}</span>}
                                         </td>
                                         <td className="px-8 py-6">
                                             <p className="text-[10px] text-muted-foreground line-clamp-1 italic max-w-xs">{item.excerpt}</p>
@@ -303,17 +316,18 @@ export default function NewsListPage() {
                                         <Newspaper size={14} className="text-primary" /> Kategori
                                     </label>
                                     <select
-                                        value={formData.category || ''}
-                                        onChange={e => setFormData(p => ({ ...p, category: e.target.value }))}
+                                        value={formData.categoryId || ''}
+                                        onChange={e => setFormData(p => ({ ...p, categoryId: e.target.value }))}
                                         className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all"
                                     >
                                         <option value="" disabled>Pilih Kategori...</option>
-                                        <option value="Akademik">Akademik</option>
-                                        <option value="Kemahasiswaan">Kemahasiswaan</option>
-                                        <option value="Pengumuman">Pengumuman</option>
-                                        <option value="Prestasi">Prestasi</option>
-                                        <option value="Berita Kampus">Berita Kampus</option>
-                                        <option value="Umum">Umum</option>
+                                        {categories.length > 0 ? (
+                                            categories.map((cat) => (
+                                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                            ))
+                                        ) : (
+                                            <option disabled>Memuat kategori...</option>
+                                        )}
                                     </select>
                                 </div>
                                 {field("Penulis", <FileText size={14} className="text-primary" />, 'author', 'Nama Penulis')}

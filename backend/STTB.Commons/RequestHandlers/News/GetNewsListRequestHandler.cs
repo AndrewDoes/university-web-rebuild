@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using STTB.Contracts.ResponseModels.NewsCategories;
 using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
@@ -28,7 +29,12 @@ public class GetNewsListRequestHandler : IRequestHandler<GetNewsListRequest, Get
                 Slug = x.Slug ?? "",
                 Excerpt = x.Excerpt ?? "",
                 Image = x.Image ?? "",
-                Category = x.Category ?? "",
+                Category = x.Category != null ? new NewsCategoryDto
+                {
+                    Id = x.Category.Id,
+                    Name = x.Category.Name,
+                    Slug = x.Category.Slug
+                } : null,
                 Status = x.Status ?? "draft",
                 PublishedAt = x.PublishedAt
             })
