@@ -135,7 +135,7 @@ export default function DashboardPage() {
                     <p className="text-[9px] font-bold text-secondary uppercase tracking-widest mb-1">
                       {new Date(event.startDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
                     </p>
-                    <h5 className="text-sm font-bold text-foreground uppercase tracking-tight truncate max-w-[300px]">{event.title}</h5>
+                    <h5 className="text-sm font-bold text-foreground uppercase tracking-tight truncate max-w-75">{event.title}</h5>
                   </div>
                   <div className="flex items-center gap-4">
                     <span className={`text-[9px] font-bold px-2 py-1 rounded uppercase ${event.isFeatured ? 'bg-secondary/10 text-secondary border border-secondary/20' : 'bg-muted text-muted-foreground'}`}>
