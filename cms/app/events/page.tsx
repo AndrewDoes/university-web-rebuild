@@ -224,7 +224,7 @@ export default function EventsManagementPage() {
 
             {/* MODAL */}
             {modalOpen && (
-                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-auto">
+                <div className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm flex items-center justify-center mt-20 p-4 overflow-auto">
                     <div className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-2xl my-8">
                         <div className="flex items-center justify-between p-6 border-b border-border">
                             <div className="flex items-center gap-3">
@@ -241,9 +241,24 @@ export default function EventsManagementPage() {
                                 <input type="text" value={formData.title || ''} onChange={e => setFormData(p => ({ ...p, title: e.target.value }))} placeholder="Webinar Teologi Abad 21" className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all" />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2"><Calendar size={14} className="text-primary" /> Tanggal *</label>
-                                    <input type="date" value={formData.startDate || ''} onChange={e => setFormData(p => ({ ...p, startDate: e.target.value }))} className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all" />
+                                <div 
+                                    className="space-y-2 cursor-pointer"
+                                    onClick={(e) => {
+                                        const input = e.currentTarget.querySelector('input');
+                                        if (input && typeof input.showPicker === 'function') {
+                                            input.showPicker();
+                                        }
+                                    }}
+                                >
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2 cursor-pointer">
+                                        <Calendar size={14} className="text-primary" /> Tanggal *
+                                    </label>
+                                    <input 
+                                        type="date" 
+                                        value={formData.startDate || ''} 
+                                        onChange={e => setFormData(p => ({ ...p, startDate: e.target.value }))} 
+                                        className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all cursor-pointer pointer-events-none" 
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2"><Clock size={14} className="text-primary" /> Waktu</label>

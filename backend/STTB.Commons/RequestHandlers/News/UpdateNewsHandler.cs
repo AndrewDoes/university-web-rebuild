@@ -17,17 +17,17 @@ public class UpdateNewsHandler : IRequestHandler<UpdateNewsRequest, UpdateNewsRe
             ?? throw new KeyNotFoundException($"News with id {request.Id} not found.");
 
         news.Title = request.Title;
-        
-        news.Slug = string.IsNullOrWhiteSpace(request.Slug) 
-            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
-            : request.Slug;
+        if (!string.IsNullOrWhiteSpace(request.Slug))
+        {
+            news.Slug = request.Slug;
+        }
         news.Excerpt = request.Excerpt;
         news.Content = request.Content;
         news.Image = request.Image;
-        news.Category = request.Category;
+        news.CategoryId = request.CategoryId;
         news.Author = request.Author;
         news.PublishedAt = request.PublishedAt;
-        news.Status = request.Status;
+        news.Status = request.Status.Trim().ToLower();
         news.Tags = request.Tags;
 
         await _db.SaveChangesAsync(cancellationToken);

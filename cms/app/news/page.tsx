@@ -4,11 +4,19 @@ import {
     Newspaper, Plus, Search, Edit2, Trash2,
     Calendar, Loader2, AlertCircle, X, Save, FileText, Image as ImageIcon, Type
 } from 'lucide-react';
-import { api, NewsDto, NewsDetailDto } from '../services/api';
+import { api, NewsDto, NewsDetailDto, NewsCategoryDto } from '../services/api';
 
 const EMPTY_FORM: Partial<NewsDetailDto> = {
-    title: '', excerpt: '', content: '', image: '',
-    author: '', category: '', tags: '', status: 'published'
+    title: '',
+    excerpt: '',
+    content: '',
+    image: '',
+    author: '',
+    categoryId: '',
+    tags: '',
+    slug: '',
+    publishedAt: '',
+    status: 'draft'
 };
 
 export default function NewsListPage() {
@@ -21,6 +29,8 @@ export default function NewsListPage() {
     const [formData, setFormData] = useState<Partial<NewsDetailDto>>(EMPTY_FORM);
     const [saving, setSaving] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [categories, setCategories] = useState<NewsCategoryDto[]>([]);
+
     const [activeTab, setActiveTab] = useState<'published' | 'draft'>('published');
 
     const fetchNews = async () => {
@@ -36,7 +46,19 @@ export default function NewsListPage() {
         }
     };
 
-    useEffect(() => { fetchNews(); }, []);
+    const fetchCategories = async () => {
+        try {
+            const response = await api.newsCategories.getAll();
+            setCategories(response.categories || []);
+        } catch (error) {
+            console.error("Gagal memuat kategori:", error);
+        }
+    };
+
+    useEffect(() => { 
+        fetchNews();
+        fetchCategories();
+    }, []);
 
     const openCreate = () => {
         setEditingItem(null);
@@ -49,12 +71,29 @@ export default function NewsListPage() {
         try {
             const detail = await api.news.getById(item.id);
             setFormData({
-                title: detail.title, excerpt: detail.excerpt, content: detail.content,
-                image: detail.image, author: detail.author, category: detail.category,
-                tags: detail.tags, status: detail.status
+                title: detail.title || '',
+                excerpt: detail.excerpt || '',
+                content: detail.content || '',
+                image: detail.image || '',
+                author: detail.author || '',
+                categoryId: detail.category?.id || '',
+                tags: detail.tags || '',
+                slug: detail.slug || '',
+                publishedAt: detail.publishedAt || '',
+                status: detail.status?.trim().toLowerCase() || 'draft'
             });
         } catch {
-            setFormData({ title: item.title, excerpt: item.excerpt, image: item.image });
+            setFormData({
+                title: item.title || '',
+                excerpt: item.excerpt || '',
+                image: item.image || '',
+                author: item.author || '',
+                categoryId: item.category?.id || '',
+                tags: item.category?.name || '',
+                slug: item.slug || '',
+                publishedAt: item.publishedAt || '',
+                status: item.status?.trim().toLowerCase() || 'draft'
+            });
         }
         setModalOpen(true);
     };
@@ -67,16 +106,28 @@ export default function NewsListPage() {
 
     const handleSave = async () => {
         if (!formData.title) return;
+
         setSaving(true);
         try {
+            const normalizedStatus = (formData.status || 'draft').trim().toLowerCase();
+
+            const payload: Partial<NewsDetailDto> = {
+                ...formData,
+                status: normalizedStatus,
+                slug: formData.slug || undefined,
+                publishedAt: formData.publishedAt || new Date().toISOString()
+            };
+
             if (editingItem) {
-                await api.news.update(editingItem.id, formData);
+                await api.news.update(editingItem.id, payload);
             } else {
-                await api.news.create(formData);
+                await api.news.create(payload);
             }
+
             closeModal();
             await fetchNews();
-        } catch {
+        } catch (error) {
+            console.error(error);
             setError("Gagal menyimpan berita.");
         } finally {
             setSaving(false);
@@ -97,8 +148,8 @@ export default function NewsListPage() {
     };
 
     const filteredNews = news.filter(item => {
-        const matchesSearch = (item.title?.toLowerCase() || "").includes(searchQuery.toLowerCase());
-        const itemStatus = item.status?.toLowerCase() || 'draft';
+        const matchesSearch = (item.title?.toLowerCase() || '').includes(searchQuery.toLowerCase());
+        const itemStatus = (item.status || 'draft').trim().toLowerCase();
         return matchesSearch && itemStatus === activeTab;
     });
 
@@ -137,20 +188,31 @@ export default function NewsListPage() {
 
             {/* TOOLBAR */}
             <div className="flex flex-col md:flex-row gap-4">
+
+                {/* TAB FILTER */}
                 <div className="flex bg-muted p-1 rounded-xl">
                     <button
                         onClick={() => setActiveTab('published')}
-                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'published' ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'published'
+                            ? 'bg-card shadow-sm text-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                            }`}
                     >
                         Published
                     </button>
+
                     <button
                         onClick={() => setActiveTab('draft')}
-                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'draft' ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                        className={`px-6 py-2.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'draft'
+                            ? 'bg-card shadow-sm text-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                            }`}
                     >
                         Drafts
                     </button>
                 </div>
+
+                {/* SEARCH */}
                 <div className="relative flex-1 group">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={16} />
                     <input
@@ -161,21 +223,15 @@ export default function NewsListPage() {
                         className="w-full bg-card border border-border pl-12 pr-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all shadow-sm"
                     />
                 </div>
+
                 <button
                     onClick={fetchNews}
                     className="flex items-center gap-2 px-6 py-3 bg-muted border border-border rounded-xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all"
                 >
                     <Loader2 size={16} className={loading ? "animate-spin" : ""} /> Refresh
                 </button>
+
             </div>
-
-            {error && (
-                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-500">
-                    <AlertCircle size={18} />
-                    <p className="text-xs font-bold uppercase tracking-widest">{error}</p>
-                </div>
-            )}
-
             {/* TABLE */}
             <div className="bg-card border border-border rounded-sm shadow-sm overflow-hidden">
                 {loading && news.length === 0 ? (
@@ -205,7 +261,7 @@ export default function NewsListPage() {
                                     <tr key={item.id} className="hover:bg-muted/20 transition-colors group">
                                         <td className="px-8 py-6">
                                             <p className="text-sm font-bold text-foreground uppercase tracking-tight line-clamp-1">{item.title}</p>
-                                            {item.category && <span className="text-[9px] font-bold text-primary uppercase tracking-[0.2em]">{item.category}</span>}
+                                            {item.category?.name && <span className="text-[9px] font-bold text-primary uppercase tracking-[0.2em]">{item.category.name}</span>}
                                         </td>
                                         <td className="px-8 py-6">
                                             <p className="text-[10px] text-muted-foreground line-clamp-1 italic max-w-xs">{item.excerpt}</p>
@@ -240,7 +296,7 @@ export default function NewsListPage() {
 
             {/* MODAL */}
             {modalOpen && (
-                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-auto">
+                <div className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm flex items-center justify-center mt-20 p-4 overflow-auto">
                     <div className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-2xl my-8">
                         <div className="flex items-center justify-between p-6 border-b border-border">
                             <div className="flex items-center gap-3">
@@ -255,13 +311,32 @@ export default function NewsListPage() {
                             {field("Judul Berita *", <Type size={14} className="text-primary" />, 'title', 'Contoh: STTB Gelar Wisuda Angkatan ke-20')}
                             {field("URL Gambar", <ImageIcon size={14} className="text-primary" />, 'image', 'https://...')}
                             <div className="grid grid-cols-2 gap-4">
-                                {field("Kategori", <Newspaper size={14} className="text-primary" />, 'category', 'Akademik / Institusi')}
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                        <Newspaper size={14} className="text-primary" /> Kategori
+                                    </label>
+                                    <select
+                                        value={formData.categoryId || ''}
+                                        onChange={e => setFormData(p => ({ ...p, categoryId: e.target.value }))}
+                                        className="w-full bg-muted border border-border px-4 py-3 rounded-xl text-sm outline-none focus:border-primary transition-all"
+                                    >
+                                        <option value="" disabled>Pilih Kategori...</option>
+                                        {categories.length > 0 ? (
+                                            categories.map((cat) => (
+                                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                            ))
+                                        ) : (
+                                            <option disabled>Memuat kategori...</option>
+                                        )}
+                                    </select>
+                                </div>
                                 {field("Penulis", <FileText size={14} className="text-primary" />, 'author', 'Nama Penulis')}
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                                     <Newspaper size={14} className="text-primary" /> Status *
                                 </label>
+
                                 <select
                                     value={formData.status || 'draft'}
                                     onChange={e => setFormData(p => ({ ...p, status: e.target.value }))}

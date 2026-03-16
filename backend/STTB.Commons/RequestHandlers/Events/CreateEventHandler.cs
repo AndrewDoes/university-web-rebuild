@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.Events;
 using STTB.Contracts.ResponseModels.Events;
 using STTB.Entities;
@@ -13,9 +14,11 @@ public class CreateEventHandler : IRequestHandler<CreateEventRequest, CreateEven
 
     public async Task<CreateEventResponse> Handle(CreateEventRequest request, CancellationToken cancellationToken)
     {
-        var slug = string.IsNullOrWhiteSpace(request.Slug) 
-            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
-            : request.Slug;
+        var baseSlug = string.IsNullOrWhiteSpace(request.Slug)
+            ? GenerateSlug(request.Title)
+            : GenerateSlug(request.Slug);
+
+        var slug = await GenerateUniqueSlugAsync(baseSlug, cancellationToken);
 
         var ev = new STTB.Entities.Event
         {
@@ -50,5 +53,29 @@ public class CreateEventHandler : IRequestHandler<CreateEventRequest, CreateEven
             Status = ev.Status,
             CreatedAt = ev.CreatedAt
         };
+    }
+
+    private static string GenerateSlug(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return Guid.NewGuid().ToString();
+
+        return text.Trim()
+            .ToLower()
+            .Replace(" ", "-");
+    }
+
+    private async Task<string> GenerateUniqueSlugAsync(string baseSlug, CancellationToken cancellationToken)
+    {
+        var slug = baseSlug;
+        var counter = 1;
+
+        while (await _db.Events.AnyAsync(x => x.Slug == slug, cancellationToken))
+        {
+            slug = $"{baseSlug}-{counter}";
+            counter++;
+        }
+
+        return slug;
     }
 }

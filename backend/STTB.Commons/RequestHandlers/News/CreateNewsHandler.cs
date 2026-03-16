@@ -1,8 +1,8 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
 using STTB.Entities;
-using STTB.Entities.Entities;
 
 namespace STTB.Commons.RequestHandlers.News;
 
@@ -14,9 +14,18 @@ public class CreateNewsHandler : IRequestHandler<CreateNewsRequest, CreateNewsRe
 
     public async Task<CreateNewsResponse> Handle(CreateNewsRequest request, CancellationToken cancellationToken)
     {
-        var slug = string.IsNullOrWhiteSpace(request.Slug) 
-            ? STTB.Commons.Helpers.SlugHelper.GenerateSlug(request.Title) 
-            : request.Slug;
+        var slug = !string.IsNullOrWhiteSpace(request.Slug)
+            ? request.Slug.Trim().ToLower()
+            : GenerateSlug(request.Title);
+
+        var originalSlug = slug;
+        var counter = 1;
+
+        while (await _db.News.AnyAsync(x => x.Slug == slug, cancellationToken))
+        {
+            slug = $"{originalSlug}-{counter}";
+            counter++;
+        }
 
         var news = new STTB.Entities.Entities.News
         {
@@ -26,10 +35,10 @@ public class CreateNewsHandler : IRequestHandler<CreateNewsRequest, CreateNewsRe
             Excerpt = request.Excerpt,
             Content = request.Content,
             Image = request.Image,
-            Category = request.Category,
+            CategoryId = request.CategoryId,
             Author = request.Author,
             PublishedAt = request.PublishedAt,
-            Status = request.Status,
+            Status = request.Status.Trim().ToLower(),
             Tags = request.Tags,
             CreatedAt = DateTime.UtcNow
         };
@@ -45,5 +54,10 @@ public class CreateNewsHandler : IRequestHandler<CreateNewsRequest, CreateNewsRe
             Status = news.Status,
             CreatedAt = news.CreatedAt
         };
+    }
+
+    private static string GenerateSlug(string title)
+    {
+        return title.Trim().ToLower().Replace(" ", "-");
     }
 }

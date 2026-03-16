@@ -12,8 +12,10 @@ export interface NewsDto {
     title: string;
     excerpt: string;
     image: string;
+    description?: string;
     publishedAt: string;
-    category?: string;
+    category?: NewsCategoryDto;
+    categoryId?: string;
     author?: string;
     status?: string;
     tags?: string;
@@ -68,6 +70,17 @@ export interface LecturerDto {
     createdAt: string;
 }
 
+export interface NewsCategoryDto {
+    id: string;
+    name: string;
+    slug: string;
+    createdAt: string;
+}
+
+export interface GetNewsCategoriesResponse {
+    categories: NewsCategoryDto[];
+}
+
 // --- REQUEST HANDLER ---
 
 async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
@@ -108,6 +121,20 @@ export const api = {
             body: JSON.stringify(data)
         }),
         delete: (id: string) => apiRequest<{ success: boolean; message: string }>(`/news/${id}`, {
+            method: 'DELETE'
+        }),
+    },
+    newsCategories: {
+        getAll: () => apiRequest<GetNewsCategoriesResponse>('/newscategories'),
+        create: (data: Partial<NewsCategoryDto>) => apiRequest<NewsCategoryDto>('/newscategories', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }),
+        update: (id: string, data: Partial<NewsCategoryDto>) => apiRequest<NewsCategoryDto>(`/newscategories/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        }),
+        delete: (id: string) => apiRequest<boolean>(`/newscategories/${id}`, {
             method: 'DELETE'
         }),
     },
@@ -156,4 +183,4 @@ export const api = {
             method: 'DELETE'
         }),
     }
-};
+};

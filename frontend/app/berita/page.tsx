@@ -22,10 +22,7 @@ export default function UserNewsListingPage() {
         fetchNews();
     }, []);
 
-    const filtered = news.filter(n => 
-        (n.title || "").toLowerCase().includes(searchTerm.toLowerCase()) && 
-        n.status === 'published'
-    );
+    const filtered = news.filter(n => (n.title || "").toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
         <main className="min-h-screen bg-background font-sans text-foreground">

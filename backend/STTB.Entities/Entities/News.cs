@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace STTB.Entities.Entities;
@@ -21,8 +21,10 @@ public class News
     [StringLength(255)]
     public string? Image { get; set; }
 
-    [StringLength(50)]
-    public string Category { get; set; } = string.Empty;
+    public Guid CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
+    public virtual NewsCategory? Category { get; set; }
 
     [StringLength(100)]
     public string Author { get; set; } = string.Empty;

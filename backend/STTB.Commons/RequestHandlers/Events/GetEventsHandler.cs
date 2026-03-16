@@ -22,6 +22,7 @@ public class GetEventsHandler : IRequestHandler<GetEventsQuery, List<GetEventsRe
                 Id = e.Id,
                 Title = e.Title,
                 Image = e.Image,
+                Description = e.Description,
                 StartDate = e.StartDate,
                 Time = e.Time,
                 Location = e.Location,

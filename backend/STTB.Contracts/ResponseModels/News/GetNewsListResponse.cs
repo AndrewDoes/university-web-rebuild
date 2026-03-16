@@ -1,3 +1,5 @@
+using STTB.Contracts.ResponseModels.NewsCategories;
+
 namespace STTB.Contracts.ResponseModels.News;
 
 public class GetNewsListResponse
@@ -8,18 +10,11 @@ public class GetNewsListResponse
 public class NewsDto
 {
     public Guid Id { get; set; }
-
     public string Title { get; set; } = string.Empty;
-
     public string Slug { get; set; } = string.Empty;
-
     public string Excerpt { get; set; } = string.Empty;
-
     public string Image { get; set; } = string.Empty;
-
-    public string Category { get; set; } = string.Empty;
-
+    public NewsCategoryDto? Category { get; set; }
     public string Status { get; set; } = string.Empty;
-
     public DateTime PublishedAt { get; set; }
 }
