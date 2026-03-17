@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace STTB.Entities.Entities;
 
@@ -13,5 +14,6 @@ public class NewsCategory
     [StringLength(100)]
     public string Slug { get; set; } = string.Empty;
 
+    [Column("created_at")]
     public DateTime CreatedAt { get; set; }
 }

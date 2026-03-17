@@ -32,16 +32,23 @@ public class GetNewsDetailHandler
         {
             Id = news.Id,
             Title = news.Title,
+            Slug = news.Slug,
+            Excerpt = news.Excerpt,
             Content = news.Content,
             Image = news.Image,
-            Category = news.Category != null ? new NewsCategoryDto
-            {
-                Id = news.Category.Id,
-                Name = news.Category.Name,
-                Slug = news.Category.Slug
-            } : null,
+            CategoryId = news.CategoryId,
+            Category = news.Category != null
+                ? new NewsCategoryDto
+                {
+                    Id = news.Category.Id,
+                    Name = news.Category.Name,
+                    Slug = news.Category.Slug
+                }
+                : null,
             Author = news.Author,
-            PublishedAt = news.PublishedAt
+            PublishedAt = news.PublishedAt,
+            Status = news.Status,
+            Tags = news.Tags
         };
     }
 }

@@ -33,22 +33,22 @@ export interface GetNewsListResponse {
 export interface EventDto {
     id: string;
     title: string;
-    slug: string;
+    slug?: string;
     description: string;
-    content: string;
+    content?: string;
     image: string;
     startDate: string;
     endDate?: string;
     time: string;
     location: string;
-    speakers: string;
-    agenda: string;
+    speakers?: string;
+    agenda?: string;
     price: string;
-    isFeatured: boolean;
-    status: string;
+    isFeatured?: boolean;
+    status?: string;
     maxParticipants?: number;
     registrationDeadline?: string;
-    createdAt: string;
+    createdAt?: string;
 }
 
 export interface TestimonialDto {

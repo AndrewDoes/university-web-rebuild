@@ -30,14 +30,6 @@ public class GetEventsHandler : IRequestHandler<GetEventsQuery, List<GetEventsRe
             })
             .ToListAsync();
 
-        if (!upcomingEvents.Any())
-        {
-            upcomingEvents.Add(new GetEventsResponse
-            {
-                Message = "No upcoming events"
-            });
-        }
-
         return upcomingEvents;
     }
 }

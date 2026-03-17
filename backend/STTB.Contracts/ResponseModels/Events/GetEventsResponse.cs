@@ -17,6 +17,4 @@ public class GetEventsResponse
     public string Location { get; set; }
 
     public string Price { get; set; }
-
-    public string Message { get; set; } = null;
 }
