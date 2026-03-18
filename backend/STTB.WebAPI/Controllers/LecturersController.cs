@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.Lecturers;
 using STTB.Contracts.ResponseModels.Lecturers;
@@ -35,6 +36,7 @@ public class LecturersController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<CreateLecturerResponse>> CreateLecturer(
         [FromBody] CreateLecturerRequest request,
         CancellationToken cancellationToken)
@@ -44,6 +46,7 @@ public class LecturersController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<UpdateLecturerResponse>> UpdateLecturer(
         Guid id,
         [FromBody] UpdateLecturerRequest request,
@@ -63,6 +66,7 @@ public class LecturersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<DeleteLecturerResponse>> DeleteLecturer(Guid id, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new DeleteLecturerRequest { Id = id }, cancellationToken);

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.NewsCategories;
 using STTB.Contracts.ResponseModels.NewsCategories;
@@ -26,6 +27,7 @@ public class NewsCategoryController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<CreateNewsCategoryResponse>> CreateNewsCategory(
         [FromBody] CreateNewsCategoryRequest request,
         CancellationToken cancellationToken)
@@ -35,6 +37,7 @@ public class NewsCategoryController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<UpdateNewsCategoryResponse>> UpdateNewsCategory(
         Guid id,
         [FromBody] UpdateNewsCategoryRequest request,
@@ -46,6 +49,7 @@ public class NewsCategoryController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<bool>> DeleteNewsCategory(
         Guid id,
         CancellationToken cancellationToken)

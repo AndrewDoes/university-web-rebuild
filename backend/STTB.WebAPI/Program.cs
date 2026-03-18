@@ -78,4 +78,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+Console.WriteLine(BCrypt.Net.BCrypt.HashPassword("admin123"));
 app.Run();

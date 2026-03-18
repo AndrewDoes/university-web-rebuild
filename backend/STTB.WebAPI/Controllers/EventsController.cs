@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.Events;
 
@@ -59,6 +60,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> CreateEvent([FromBody] CreateEventRequest request, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(request, cancellationToken);
@@ -66,6 +68,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateEvent(Guid id, [FromBody] UpdateEventRequest request, CancellationToken cancellationToken)
     {
         request.Id = id;
@@ -82,6 +85,7 @@ public class EventsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteEvent(Guid id, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new DeleteEventRequest { Id = id }, cancellationToken);
@@ -91,4 +95,4 @@ public class EventsController : ControllerBase
 
         return Ok(result);
     }
-}
+}

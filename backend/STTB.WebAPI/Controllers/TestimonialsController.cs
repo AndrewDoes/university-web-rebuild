@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.Testimonials;
 
@@ -34,6 +35,7 @@ namespace STTB.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateTestimonial([FromBody] CreateTestimonialRequest request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
@@ -41,6 +43,7 @@ namespace STTB.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateTestimonial(Guid id, [FromBody] UpdateTestimonialRequest request, CancellationToken cancellationToken)
         {
             request.Id = id;
@@ -57,6 +60,7 @@ namespace STTB.WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteTestimonial(Guid id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new DeleteTestimonialRequest { Id = id }, cancellationToken);

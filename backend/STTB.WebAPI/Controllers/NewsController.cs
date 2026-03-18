@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
@@ -53,6 +54,7 @@ public class NewsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<CreateNewsResponse>> CreateNews(
         [FromBody] CreateNewsRequest request,
         CancellationToken cancellationToken)
@@ -62,6 +64,7 @@ public class NewsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<UpdateNewsResponse>> UpdateNews(
         Guid id,
         [FromBody] UpdateNewsRequest request,
@@ -81,6 +84,7 @@ public class NewsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")]
     public async Task<ActionResult<DeleteNewsResponse>> DeleteNews(
         Guid id,
         CancellationToken cancellationToken)
