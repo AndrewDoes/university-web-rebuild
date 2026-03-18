@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,14 +20,10 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const success = await login(username, password);
-      if (success) {
-        router.push('/');
-      } else {
-        setError('Kredensial tidak valid.');
-      }
-    } catch (err) {
-      setError('Terjadi kesalahan sistem. Silakan coba lagi.');
+      await login(email, password);
+      router.push('/');
+    } catch (err: any) {
+      setError(err.message || 'Email atau password salah.');
     } finally {
       setIsSubmitting(false);
     }
@@ -41,11 +37,11 @@ export default function LoginPage() {
 
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
       <div className="w-full max-w-md p-8 relative z-10">
         <div className="flex flex-col items-center mb-10 space-y-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/20 animate-in zoom-in duration-700">
+          <div className="w-16 h-16 bg-linear-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/20 animate-in zoom-in duration-700">
             <ShieldCheck size={32} className="text-white" />
           </div>
           <div className="text-center space-y-1">
@@ -64,18 +60,18 @@ export default function LoginPage() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">
-                  Username
+                  Email Address
                 </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
                     <User size={18} />
                   </div>
                   <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-background/50 border border-border rounded-2xl py-3.5 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    placeholder="Enter your username"
+                    placeholder="Enter your email"
                     required
                   />
                 </div>
@@ -135,7 +131,7 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-8 flex flex-col items-center gap-4">
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="h-px w-full bg-linear-to-r from-transparent via-border to-transparent" />
             <p className="text-[9px] text-muted-foreground uppercase tracking-widest text-center leading-relaxed">
               Don't have access? <br />
               <a href='https://wa.link/n67x93 ' className='text-primary hover:underline' target='_blank'>Contact System Administrator</a>

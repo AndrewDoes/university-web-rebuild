@@ -19,8 +19,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
   // Route protection
   useEffect(() => {
-    if (!isLoading && !user && pathname !== '/login') {
-      router.replace('/login');
+    if (!isLoading && pathname !== '/login') {
+      if (!user) {
+        router.replace('/login');
+      } else if (user.role.toLowerCase() !== 'admin') {
+        // If logged in but not admin, kick them out
+        router.replace('/login');
+      }
     }
   }, [user, isLoading, pathname, router]);
 

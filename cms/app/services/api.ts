@@ -81,21 +81,45 @@ export interface GetNewsCategoriesResponse {
     categories: NewsCategoryDto[];
 }
 
+export interface LoginRequestDto {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponseDto {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    token: string;
+    expiredAt: string;
+}
+
 // --- REQUEST HANDLER ---
 
 async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
     try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('sttb_cms_token') : null;
+        
         const response = await fetch(`${BASE_URL}${endpoint}`, {
             ...options,
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
                 ...options?.headers,
             },
         });
 
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Fetch Error: ${response.status} - ${errorText || response.statusText}`);
+            let errorMessage = `Fetch Error: ${response.status}`;
+            try {
+                const errorJson = JSON.parse(errorText);
+                errorMessage = errorJson.message || errorMessage;
+            } catch (e) {
+                errorMessage = errorText || response.statusText;
+            }
+            throw new Error(errorMessage);
         }
 
         if (response.status === 204) return {} as T;
@@ -181,6 +205,12 @@ export const api = {
         }),
         delete: (id: string) => apiRequest<{ success: boolean; message: string }>(`/lecturers/${id}`, {
             method: 'DELETE'
+        }),
+    },
+    auth: {
+        login: (data: LoginRequestDto) => apiRequest<LoginResponseDto>('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify(data)
         }),
     }
 };

@@ -1,17 +1,19 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { api, LoginResponseDto } from './api';
 
 interface User {
-  username: string;
+  id: string;
+  email: string;
   name: string;
   role: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -22,46 +24,54 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const pathname = usePathname();
-
+  
   useEffect(() => {
-
     const savedUser = localStorage.getItem('sttb_cms_user');
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser);
+    const token = localStorage.getItem('sttb_cms_token');
 
-        if (!parsedUser.name) {
-          parsedUser.name = parsedUser.username || 'Administrator';
-        }
-        setUser(parsedUser);
+    if (savedUser && token) {
+      try {
+        setUser(JSON.parse(savedUser));
       } catch (e) {
         console.error('Failed to parse user session', e);
         localStorage.removeItem('sttb_cms_user');
+        localStorage.removeItem('sttb_cms_token');
       }
     }
     setIsLoading(false);
   }, []);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      const response: LoginResponseDto = await api.auth.login({ email, password });
+      
+      // Check if the user has the 'admin' role
+      if (response.role.toLowerCase() !== 'admin') {
+        throw new Error('Hanya administrator yang dapat mengakses CMS.');
+      }
 
-    // mock data, change later pls
-    if (username === 'admin' && password === 'admin123') {
-      const mockUser = {
-        username: 'admin',
-        name: 'Administrator',
-        role: 'admin'
+      const userData: User = {
+        id: response.id,
+        email: response.email,
+        name: response.name,
+        role: response.role,
       };
-      setUser(mockUser);
-      localStorage.setItem('sttb_cms_user', JSON.stringify(mockUser));
+
+      setUser(userData);
+      localStorage.setItem('sttb_cms_user', JSON.stringify(userData));
+      localStorage.setItem('sttb_cms_token', response.token);
+      
       return true;
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
     }
-    return false;
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('sttb_cms_user');
+    localStorage.removeItem('sttb_cms_token');
     router.push('/login');
   };
 
