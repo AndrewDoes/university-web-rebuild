@@ -15,6 +15,7 @@ import {
     Group,
     MessageSquareQuote
 } from 'lucide-react';
+import { useAuth } from '@/app/services/AuthContext';
 
 interface SidebarProps {
     apiStatus: 'connected' | 'error' | 'loading';
@@ -30,6 +31,7 @@ const navItems = [
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ apiStatus }) => {
+    const { user, logout } = useAuth();
     const [currentPath, setCurrentPath] = useState('');
 
     // Menggunakan useEffect untuk mendapatkan pathname tanpa modul next/navigation yang bermasalah di preview
@@ -155,26 +157,33 @@ const Sidebar: React.FC<SidebarProps> = ({ apiStatus }) => {
                     {/* Admin Profile & Logout */}
                     <div className="flex items-center gap-4 px-2">
                         <div className="relative group/avatar cursor-pointer">
-                            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs shadow-lg transition-transform group-hover:rotate-6">
-                                AD
+                            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs shadow-lg transition-transform group-hover:rotate-6 uppercase">
+                                {user?.name?.substring(0, 2) || 'AD'}
                             </div>
                             <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-secondary border-[3px] border-sidebar-bg rounded-full" />
                         </div>
                         <div className="flex-1 min-w-0 text-left">
-                            <p className="text-[10px] font-bold uppercase tracking-widest truncate leading-none text-foreground">Administrator</p>
-                            <p className="text-[8px] opacity-30 uppercase font-bold tracking-tighter mt-1.5 group-hover:opacity-60 transition-opacity text-foreground">Full Access Node</p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest truncate leading-none text-foreground">
+                                {user?.name || 'Administrator'}
+                            </p>
+                            <p className="text-[8px] opacity-30 uppercase font-bold tracking-tighter mt-1.5 group-hover:opacity-60 transition-opacity text-foreground">
+                                {user?.role || 'Full Access Node'}
+                            </p>
                         </div>
-                        <a
-                            href="/logout"
+
+                        <button
+                            onClick={() => logout()}
                             className="p-2.5 text-muted-foreground hover:text-danger hover:bg-danger/10 rounded-xl transition-all active:scale-90"
+                            title="Logout"
                         >
                             <LogOut size={18} />
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
         </aside>
     );
 };
+
 
 export default Sidebar;

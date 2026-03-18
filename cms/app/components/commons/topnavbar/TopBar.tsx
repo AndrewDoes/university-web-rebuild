@@ -10,6 +10,7 @@ import {
     Maximize,
     LayoutGrid
 } from 'lucide-react';
+import { useUser } from '@/app/services/AuthContext';
 
 interface TopBarProps {
     title: string;
@@ -17,6 +18,8 @@ interface TopBarProps {
 }
 
 const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
+    const user = useUser();
+
     return (
         <header className="h-20 border-b border-border bg-background flex items-center justify-between px-8 sticky top-0 z-40 transition-colors">
 
@@ -78,11 +81,15 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
                 {/* Profile Trigger */}
                 <button className="flex items-center gap-3 pl-3 py-1.5 hover:bg-muted rounded-lg transition-all group">
                     <div className="text-right hidden sm:block">
-                        <p className="text-[10px] font-bold text-foreground uppercase leading-none">Andrew D.</p>
-                        <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-tighter mt-1">Super Admin</p>
+                        <p className="text-[10px] font-bold text-foreground uppercase leading-none">
+                            {user?.name || 'Guest User'}
+                        </p>
+                        <p className="text-[8px] font-medium text-muted-foreground uppercase tracking-tighter mt-1">
+                            {user?.role || 'Restricted Access'}
+                        </p>
                     </div>
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                        <User size={18} />
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all uppercase font-bold text-xs">
+                        {user?.name?.substring(0, 2) || <User size={18} />}
                     </div>
                 </button>
 
@@ -91,5 +98,6 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
         </header>
     );
 };
+
 
 export default TopBar;
