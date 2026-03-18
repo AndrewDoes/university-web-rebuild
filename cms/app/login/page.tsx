@@ -24,7 +24,7 @@ export default function LoginPage() {
       if (success) {
         router.push('/');
       } else {
-        setError('Kredensial tidak valid. Gunakan admin/admin123 untuk saat ini.');
+        setError('Kredensial tidak valid.');
       }
     } catch (err) {
       setError('Terjadi kesalahan sistem. Silakan coba lagi.');
@@ -53,7 +53,8 @@ export default function LoginPage() {
               STTB <span className="text-primary italic">CORE</span>
             </h1>
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground opacity-60">
-              CMS Management Portal
+              <a href="http://sttb.ac.id" target="_blank" rel="noopener noreferrer" className='text-primary'>STTB Website </a>
+              CMS Portal
             </p>
           </div>
         </div>
@@ -126,7 +127,7 @@ export default function LoginPage() {
                 </>
               ) : (
                 <>
-                  Sign In to Dashboard
+                  Sign In
                   <ShieldCheck size={16} />
                 </>
               )}
@@ -137,13 +138,13 @@ export default function LoginPage() {
             <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
             <p className="text-[9px] text-muted-foreground uppercase tracking-widest text-center leading-relaxed">
               Don't have access? <br />
-              Contact System Administrator
+              <a href='https://wa.link/n67x93 ' className='text-primary hover:underline' target='_blank'>Contact System Administrator</a>
             </p>
           </div>
         </div>
 
         <p className="mt-8 text-center text-[9px] font-bold uppercase tracking-widest text-muted-foreground opacity-40">
-          STTB Core Systems v1.0.4 • © {new Date().getFullYear()}
+          STTB Content Management System • © {new Date().getFullYear()}
         </p>
       </div>
     </div>
