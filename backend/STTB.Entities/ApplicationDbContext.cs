@@ -29,4 +29,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<ContactMessage> ContactMessages { get; set; }
 
     public DbSet<Lecturer> Lecturers { get; set; }
-}
+
+    public DbSet<UserAccount> UserAccounts { get; set; }
+}
