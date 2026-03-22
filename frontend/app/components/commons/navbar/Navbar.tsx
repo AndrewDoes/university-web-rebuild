@@ -89,7 +89,7 @@ const Navbar: React.FC = () => {
                 { label: 'Magister Ministri Marketplace', href: '/prodi/s2-ministri-marketplace' },
                 { label: 'Magister Ministri Kepemimpinan Pastoral', href: '/prodi/s2-ministri-kepemimpinan' },
                 { label: 'Magister Ministri Teologi Pelayanan Gerejawi', href: '/prodi/s2-ministri-gerejawi' },
-                { label: 'Kalender Akademik', href: '/under-development' },
+                { label: 'Kalender Akademik', href: '/akademik/kalender' },
             ]
         },
         {
@@ -116,9 +116,9 @@ const Navbar: React.FC = () => {
             label: 'Kehidupan Kampus',
             href: '/',
             children: [
-                { label: 'Fasilitas', href: '/under-development' },
-                { label: 'Pembinaan', href: '/under-development' },
-                { label: 'Senat', href: '/under-development' },
+                { label: 'Fasilitas', href: '/kampus/fasilitas' },
+                { label: 'Pembinaan', href: '/kampus/pembinaan' },
+                { label: 'Senat', href: '/kampus/senat' },
             ]
         },
         { label: 'Berita', href: '/berita' },
