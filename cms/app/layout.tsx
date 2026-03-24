@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './globals.css';
 import { usePathname } from 'next/navigation';
 import Sidebar from './components/commons/sidebar/Sidebar';
 import TopBar from './components/commons/topnavbar/TopBar';
 import AuthGuard from './components/commons/auth/AuthGuard';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5176/api';
 
 export default function AdminLayout({
     children,
@@ -14,7 +16,7 @@ export default function AdminLayout({
 }>) {
     const pathname = usePathname();
 
-    const [apiStatus] = useState<'connected' | 'error' | 'loading'>('connected');
+    const [apiStatus, setApiStatus] = useState<'connected' | 'error' | 'loading'>('loading');
     const [pageMeta, setPageMeta] = useState({
         title: 'Dashboard Overview',
         breadcrumb: [] as string[],
@@ -53,6 +55,39 @@ export default function AdminLayout({
         setPageMeta({ title, breadcrumb });
         document.title = `STTB CORE | ${title}`;
     }, [pathname]);
+
+    const checkApiStatus = useCallback(async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/test/db-health`, {
+                method: 'GET',
+                cache: 'no-store',
+            });
+
+            if (!response.ok) {
+                throw new Error('Database not connected');
+            }
+
+            setApiStatus('connected');
+        } catch {
+            setApiStatus('error');
+        }
+    }, []);
+
+    useEffect(() => {
+        checkApiStatus();
+    }, [checkApiStatus]);
+
+    useEffect(() => {
+        const handleRefreshApiStatus = () => {
+            checkApiStatus();
+        };
+
+        window.addEventListener('refresh-api-status', handleRefreshApiStatus);
+
+        return () => {
+            window.removeEventListener('refresh-api-status', handleRefreshApiStatus);
+        };
+    }, [checkApiStatus]);
 
     const isLoginPage = pathname === '/login';
 

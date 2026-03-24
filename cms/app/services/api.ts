@@ -132,7 +132,7 @@ async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T
             headers: {
                 "Content-Type": "application/json",
                 ...(auth?.token ? { Authorization: `Bearer ${auth.token}` } : {}),
-                ...options?.headers,
+                ...(options?.headers || {}),
             },
         });
 
@@ -141,14 +141,23 @@ async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T
                 clearStoredAuth();
             }
 
-            let errorMessage = response.statusText;
+            let errorMessage = response.statusText || "Request failed";
 
             try {
                 const errorJson = await response.json();
-                errorMessage = errorJson.message || response.statusText;
+                errorMessage =
+                    errorJson.message ||
+                    errorJson.title ||
+                    errorJson.error ||
+                    response.statusText ||
+                    "Request failed";
             } catch {
-                const errorText = await response.text();
-                errorMessage = errorText || response.statusText;
+                try {
+                    const errorText = await response.text();
+                    errorMessage = errorText || response.statusText || "Request failed";
+                } catch {
+                    errorMessage = response.statusText || "Request failed";
+                }
             }
 
             throw new Error(errorMessage);
@@ -158,10 +167,19 @@ async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T
             return {} as T;
         }
 
-        return await response.json();
-    } catch (error) {
-        console.error(`API Error on ${endpoint}:`, error);
-        throw error;
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+            return await response.json();
+        }
+
+        return {} as T;
+    } catch (error: any) {
+        if (error instanceof TypeError && error.message === "Failed to fetch") {
+            throw new Error("Backend atau database tidak dapat dihubungi.");
+        }
+
+        throw new Error(error?.message || "Terjadi kesalahan saat menghubungi server.");
     }
 }
 
