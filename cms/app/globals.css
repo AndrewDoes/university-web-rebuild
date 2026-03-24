@@ -95,3 +95,8 @@
     @apply antialiased transition-colors duration-300;
   }
 }
+
+.date-input-light-icon::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(100%);
+  cursor: pointer;
+}

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
     Search,
@@ -11,6 +11,7 @@ import {
     Maximize,
     Minimize
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { getStoredAuth } from '@/app/services/api';
 
 interface TopBarProps {
@@ -18,11 +19,26 @@ interface TopBarProps {
     breadcrumb: string[];
 }
 
+const SEARCH_ITEMS = [
+    { label: 'Dashboard', href: '/' },
+    { label: 'Berita & Media', href: '/news' },
+    { label: 'Kategori Berita', href: '/news/categories' },
+    { label: 'Agenda Kampus', href: '/events' },
+    { label: 'Testimoni', href: '/testimonial' },
+    { label: 'Manajemen Dosen', href: '/lecturers' },
+];
+
 const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
+    const router = useRouter();
+    const searchRef = useRef<HTMLDivElement | null>(null);
+
     const [adminName, setAdminName] = useState('Administrator');
     const [adminRole, setAdminRole] = useState('Admin');
     const [isDark, setIsDark] = useState(true);
     const [isFullscreen, setIsFullscreen] = useState(false);
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showSearchResults, setShowSearchResults] = useState(false);
 
     useEffect(() => {
         const auth = getStoredAuth();
@@ -60,6 +76,32 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+                setShowSearchResults(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const filteredResults = useMemo(() => {
+        const query = searchQuery.trim().toLowerCase();
+
+        if (!query) {
+            return [];
+        }
+
+        return SEARCH_ITEMS.filter((item) =>
+            item.label.toLowerCase().includes(query)
+        );
+    }, [searchQuery]);
+
     const handleThemeToggle = () => {
         const nextDark = !isDark;
         setIsDark(nextDark);
@@ -83,6 +125,12 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
         } catch (error) {
             console.error('Fullscreen error:', error);
         }
+    };
+
+    const handleSearchSelect = (href: string) => {
+        setSearchQuery('');
+        setShowSearchResults(false);
+        router.push(href);
     };
 
     return (
@@ -114,16 +162,52 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
             </div>
 
             <div className="hidden md:flex flex-1 max-w-md mx-12">
-                <div className="relative w-full group">
+                <div ref={searchRef} className="relative w-full group">
                     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
                         <Search size={16} />
                     </div>
 
                     <input
                         type="text"
+                        value={searchQuery}
+                        onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            setShowSearchResults(true);
+                        }}
+                        onFocus={() => {
+                            if (searchQuery.trim()) {
+                                setShowSearchResults(true);
+                            }
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && filteredResults.length > 0) {
+                                handleSearchSelect(filteredResults[0].href);
+                            }
+                        }}
                         placeholder="Cari modul atau data (Cmd + K)..."
                         className="w-full bg-muted/50 border border-border text-[13px] pl-12 pr-4 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-text placeholder:text-muted-foreground/50"
                     />
+
+                    {showSearchResults && searchQuery.trim() && (
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-lg shadow-xl overflow-hidden z-50">
+                            {filteredResults.length > 0 ? (
+                                filteredResults.map((item) => (
+                                    <button
+                                        key={item.href}
+                                        type="button"
+                                        onClick={() => handleSearchSelect(item.href)}
+                                        className="w-full px-4 py-3 text-left text-[13px] text-foreground hover:bg-muted transition-colors"
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))
+                            ) : (
+                                <div className="px-4 py-3 text-[13px] text-muted-foreground">
+                                    Tidak ada hasil.
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 

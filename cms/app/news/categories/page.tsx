@@ -170,7 +170,11 @@ export default function CategoryListPage() {
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-muted-foreground">
                                                 <Calendar size={14} className="opacity-40" />
-                                                <span className="text-[11px] font-mono">{new Date(item.createdAt).toLocaleDateString('id-ID')}</span>
+                                                <span className="text-[11px] font-mono">
+                                                    {item.createdAt && !isNaN(new Date(item.createdAt).getTime())
+                                                        ? new Date(item.createdAt).toLocaleDateString('id-ID')
+                                                        : '-'}
+                                                </span>
                                             </div>
                                         </td>
                                         <td className="px-8 py-6 text-right">

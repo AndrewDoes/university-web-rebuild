@@ -23,7 +23,8 @@ public class GetNewsCategoriesHandler : IRequestHandler<GetNewsCategoriesRequest
             {
                 Id = x.Id,
                 Name = x.Name,
-                Slug = x.Slug
+                Slug = x.Slug,
+                CreatedAt = x.CreatedAt
             })
             .ToListAsync(cancellationToken);
 
