@@ -47,4 +47,20 @@ public class AuthController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpPost("admin/login")]
+    public async Task<ActionResult<LoginResponse>> AdminLogin(
+    [FromBody] AdminLoginRequest request,
+    CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }

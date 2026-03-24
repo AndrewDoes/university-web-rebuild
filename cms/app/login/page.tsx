@@ -1,148 +1,127 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useAuth } from '../services/AuthContext';
+import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, AlertCircle } from 'lucide-react';
+import { api, setStoredAuth, getStoredAuth } from '../services/api';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
-  const router = useRouter();
+    const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    try {
-      await login(email, password);
-      router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'Email atau password salah.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    useEffect(() => {
+        const auth = getStoredAuth();
 
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-background relative overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full animate-pulse" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 blur-[120px] rounded-full animate-pulse" />
+        if (auth && auth.role?.toLowerCase() === 'admin') {
+            router.replace('/');
+        }
+    }, [router]);
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
 
-      <div className="w-full max-w-md p-8 relative z-10">
-        <div className="flex flex-col items-center mb-10 space-y-4">
-          <div className="w-16 h-16 bg-linear-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/20 animate-in zoom-in duration-700">
-            <ShieldCheck size={32} className="text-white" />
-          </div>
-          <div className="text-center space-y-1">
-            <h1 className="text-3xl font-bold tracking-tighter text-foreground uppercase">
-              STTB <span className="text-primary italic">CORE</span>
-            </h1>
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground opacity-60">
-              <a href="http://sttb.ac.id" target="_blank" rel="noopener noreferrer" className='text-primary'>STTB Website </a>
-              CMS Portal
-            </p>
-          </div>
-        </div>
+        const normalizedEmail = email.trim().toLowerCase();
 
-        <div className="bg-card/50 backdrop-blur-xl border border-border p-8 rounded-3xl shadow-2xl animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">
-                  Email Address
-                </label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                    <User size={18} />
-                  </div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-background/50 border border-border rounded-2xl py-3.5 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    placeholder="Enter your email"
-                    required
-                  />
+        if (!normalizedEmail.endsWith('@sttb.com')) {
+            setError('Email admin harus menggunakan domain @sttb.com.');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5176/api/auth/admin/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: normalizedEmail,
+                    password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.message || 'Email atau password salah.');
+                setLoading(false);
+                return;
+            }
+
+            if (data.role?.toLowerCase() !== 'admin') {
+                setError('Akses ditolak. Hanya admin yang bisa masuk.');
+                setLoading(false);
+                return;
+            }
+
+            setStoredAuth(data);
+            router.replace('/');
+        } catch {
+            setError('Tidak dapat terhubung ke server.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-background px-4">
+            <div className="w-full max-w-md bg-card border border-border rounded-2xl p-8 shadow-xl">
+                <div className="mb-8 text-center">
+                    <h1 className="text-3xl font-bold text-foreground">Admin Login</h1>
+                    <p className="text-sm text-muted-foreground mt-2">
+                        Masuk ke STTB CORE CMS
+                    </p>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">
-                  Password
-                </label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                    <Lock size={18} />
-                  </div>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-background/50 border border-border rounded-2xl py-3.5 pl-11 pr-12 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    placeholder="••••••••"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label className="block text-sm font-medium mb-2 text-foreground">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full border border-border bg-muted/30 rounded-xl px-4 py-3 outline-none focus:border-primary"
+                            placeholder="admin@sttb.com"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2 text-foreground">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full border border-border bg-muted/30 rounded-xl px-4 py-3 outline-none focus:border-primary"
+                            placeholder="Masukkan password"
+                            required
+                        />
+                    </div>
+
+                    {error && (
+                        <div className="text-sm text-red-500 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+                            {error}
+                        </div>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-primary text-primary-foreground rounded-xl py-3 font-semibold hover:opacity-90 transition disabled:opacity-50"
+                    >
+                        {loading ? 'Loading...' : 'Login'}
+                    </button>
+                </form>
             </div>
-
-            {error && (
-              <div className="bg-danger/5 border border-danger/20 p-4 rounded-2xl flex items-center gap-3 text-danger animate-in shake duration-500">
-                <AlertCircle size={18} className="shrink-0" />
-                <p className="text-[11px] font-medium italic">{error}</p>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-primary text-primary-foreground font-bold py-4 rounded-2xl shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 flex items-center justify-center gap-3 text-[11px] uppercase tracking-widest"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 size={16} className="animate-spin" />
-                  Authenticating...
-                </>
-              ) : (
-                <>
-                  Sign In
-                  <ShieldCheck size={16} />
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="mt-8 flex flex-col items-center gap-4">
-            <div className="h-px w-full bg-linear-to-r from-transparent via-border to-transparent" />
-            <p className="text-[9px] text-muted-foreground uppercase tracking-widest text-center leading-relaxed">
-              Don't have access? <br />
-              <a href='https://wa.link/n67x93 ' className='text-primary hover:underline' target='_blank'>Contact System Administrator</a>
-            </p>
-          </div>
         </div>
-
-        <p className="mt-8 text-center text-[9px] font-bold uppercase tracking-widest text-muted-foreground opacity-40">
-          STTB Content Management System • © {new Date().getFullYear()}
-        </p>
-      </div>
-    </div>
-  );
+    );
 }

@@ -5,7 +5,19 @@
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5176/api";
 
-// --- INTERFACES ---
+export interface LoginRequestDto {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponseDto {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    token: string;
+    expiredAt: string;
+}
 
 export interface NewsDto {
     id: string;
@@ -81,48 +93,71 @@ export interface GetNewsCategoriesResponse {
     categories: NewsCategoryDto[];
 }
 
-export interface LoginRequestDto {
-    email: string;
-    password: string;
+export function getStoredAuth() {
+    if (typeof window === "undefined") {
+        return null;
+    }
+
+    const raw = localStorage.getItem("sttb_admin_auth");
+    if (!raw) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(raw);
+    } catch {
+        localStorage.removeItem("sttb_admin_auth");
+        return null;
+    }
 }
 
-export interface LoginResponseDto {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    token: string;
-    expiredAt: string;
+export function setStoredAuth(data: LoginResponseDto) {
+    if (typeof window !== "undefined") {
+        localStorage.setItem("sttb_admin_auth", JSON.stringify(data));
+    }
 }
 
-// --- REQUEST HANDLER ---
+export function clearStoredAuth() {
+    if (typeof window !== "undefined") {
+        localStorage.removeItem("sttb_admin_auth");
+    }
+}
 
 async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
     try {
-        const token = typeof window !== 'undefined' ? localStorage.getItem('sttb_cms_token') : null;
-        
+        const auth = getStoredAuth();
+
         const response = await fetch(`${BASE_URL}${endpoint}`, {
             ...options,
             headers: {
-                'Content-Type': 'application/json',
-                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+                "Content-Type": "application/json",
+                ...(auth?.token ? { Authorization: `Bearer ${auth.token}` } : {}),
                 ...options?.headers,
             },
         });
 
         if (!response.ok) {
-            const errorText = await response.text();
-            let errorMessage = `Fetch Error: ${response.status}`;
+            if (response.status === 401 || response.status === 403) {
+                clearStoredAuth();
+            }
+
+            let errorMessage = response.statusText;
+
             try {
-                const errorJson = JSON.parse(errorText);
-                errorMessage = errorJson.message || errorMessage;
-            } catch (e) {
+                const errorJson = await response.json();
+                errorMessage = errorJson.message || response.statusText;
+            } catch {
+                const errorText = await response.text();
                 errorMessage = errorText || response.statusText;
             }
+
             throw new Error(errorMessage);
         }
 
-        if (response.status === 204) return {} as T;
+        if (response.status === 204) {
+            return {} as T;
+        }
+
         return await response.json();
     } catch (error) {
         console.error(`API Error on ${endpoint}:`, error);
@@ -130,9 +165,15 @@ async function apiRequest<T>(endpoint: string, options?: RequestInit): Promise<T
     }
 }
 
-// --- API EXPORT ---
-
 export const api = {
+    auth: {
+        adminLogin: (data: LoginRequestDto) =>
+            apiRequest<LoginResponseDto>("/auth/admin/login", {
+                method: "POST",
+                body: JSON.stringify(data)
+            }),
+    },
+
     news: {
         getAll: () => apiRequest<GetNewsListResponse>('/news'),
         getById: (id: string) => apiRequest<NewsDetailDto>(`/news/${id}`),
@@ -148,6 +189,7 @@ export const api = {
             method: 'DELETE'
         }),
     },
+
     newsCategories: {
         getAll: () => apiRequest<GetNewsCategoriesResponse>('/newscategories'),
         create: (data: Partial<NewsCategoryDto>) => apiRequest<NewsCategoryDto>('/newscategories', {
@@ -162,6 +204,7 @@ export const api = {
             method: 'DELETE'
         }),
     },
+
     events: {
         getAll: () => apiRequest<EventDto[]>('/events'),
         getUpcoming: (limit: number = 4) => apiRequest<EventDto[]>(`/events/upcoming?limit=${limit}`),
@@ -178,6 +221,7 @@ export const api = {
             method: 'DELETE'
         }),
     },
+
     testimonials: {
         getAll: () => apiRequest<TestimonialDto[]>('/testimonials'),
         create: (data: Partial<TestimonialDto>) => apiRequest<TestimonialDto>('/testimonials', {
@@ -192,6 +236,7 @@ export const api = {
             method: 'DELETE'
         }),
     },
+
     lecturers: {
         getAll: () => apiRequest<LecturerDto[]>('/lecturers'),
         getById: (id: string) => apiRequest<LecturerDto>(`/lecturers/${id}`),
@@ -205,12 +250,6 @@ export const api = {
         }),
         delete: (id: string) => apiRequest<{ success: boolean; message: string }>(`/lecturers/${id}`, {
             method: 'DELETE'
-        }),
-    },
-    auth: {
-        login: (data: LoginRequestDto) => apiRequest<LoginResponseDto>('/auth/login', {
-            method: 'POST',
-            body: JSON.stringify(data)
         }),
     }
 };
