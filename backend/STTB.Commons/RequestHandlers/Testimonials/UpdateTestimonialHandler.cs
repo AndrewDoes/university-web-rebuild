@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Testimonials;
 using STTB.Contracts.ResponseModels.Testimonials;
 using STTB.Entities;
@@ -24,6 +25,13 @@ public class UpdateTestimonialHandler : IRequestHandler<UpdateTestimonialRequest
         testimonial.IsFeatured = request.IsFeatured;
 
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Testimoni '{testimonial.Name}' berhasil diperbarui",
+            "update",
+            "testimonial",
+            cancellationToken);
 
         return new UpdateTestimonialResponse
         {

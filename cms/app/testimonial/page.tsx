@@ -109,8 +109,8 @@ export default function TestimonialsManagementPage() {
             </div>
 
             {/* SEARCH */}
-            <div className="flex gap-4">
-                <div className="relative flex-1 max-w-md group">
+            <div className="flex flex-col md:flex-row gap-4">
+                <div className="relative flex-1 group">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={16} />
                     <input
                         type="text"
@@ -120,8 +120,12 @@ export default function TestimonialsManagementPage() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <button onClick={fetchTestimonials} className="p-3 bg-muted border border-border rounded-xl text-muted-foreground hover:text-primary transition-all">
-                    <Loader2 className={loading ? "animate-spin" : ""} size={18} />
+                <button
+                    onClick={fetchTestimonials}
+                    className="flex items-center gap-2 px-6 py-3 bg-muted border border-border rounded-xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-all"
+                >
+                    <Loader2 size={16} className={loading ? 'animate-spin' : ''} />
+                    Refresh
                 </button>
             </div>
 

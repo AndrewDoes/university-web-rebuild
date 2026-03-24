@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Events;
 using STTB.Contracts.ResponseModels.Events;
 using STTB.Entities;
@@ -18,8 +19,17 @@ public class DeleteEventHandler : IRequestHandler<DeleteEventRequest, DeleteEven
         if (ev is null)
             return new DeleteEventResponse { Success = false, Message = "Event not found." };
 
+        var eventTitle = ev.Title;
+
         _db.Events.Remove(ev);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Event '{eventTitle}' berhasil dihapus",
+            "delete",
+            "events",
+            cancellationToken);
 
         return new DeleteEventResponse { Success = true, Message = "Event deleted successfully." };
     }

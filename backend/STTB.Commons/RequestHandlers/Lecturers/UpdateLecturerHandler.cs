@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Lecturers;
 using STTB.Contracts.ResponseModels.Lecturers;
 using STTB.Entities;
@@ -22,6 +23,13 @@ public class UpdateLecturerHandler : IRequestHandler<UpdateLecturerRequest, Upda
         lecturer.Photo = request.Photo;
 
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Dosen '{lecturer.Name}' berhasil diperbarui",
+            "update",
+            "lecturers",
+            cancellationToken);
 
         return new UpdateLecturerResponse
         {

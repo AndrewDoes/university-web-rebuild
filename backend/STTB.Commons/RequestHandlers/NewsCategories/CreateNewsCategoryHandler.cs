@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.NewsCategories;
 using STTB.Contracts.ResponseModels.NewsCategories;
 using STTB.Entities;
@@ -27,6 +28,13 @@ public class CreateNewsCategoryHandler : IRequestHandler<CreateNewsCategoryReque
 
         _db.NewsCategories.Add(category);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Kategori '{category.Name}' berhasil ditambahkan",
+            "create",
+            "news-categories",
+            cancellationToken);
 
         return new CreateNewsCategoryResponse
         {

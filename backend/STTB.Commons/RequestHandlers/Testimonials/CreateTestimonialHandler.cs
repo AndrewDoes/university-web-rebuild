@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Testimonials;
 using STTB.Contracts.ResponseModels.Testimonials;
 using STTB.Entities;
@@ -29,6 +30,13 @@ public class CreateTestimonialHandler : IRequestHandler<CreateTestimonialRequest
 
         _db.Testimonials.Add(testimonial);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Testimoni '{testimonial.Name}' berhasil ditambahkan",
+            "create",
+            "testimonial",
+            cancellationToken);
 
         return new CreateTestimonialResponse
         {

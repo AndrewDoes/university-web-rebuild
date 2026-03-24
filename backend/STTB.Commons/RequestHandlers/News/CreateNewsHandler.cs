@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
 using STTB.Entities;
@@ -45,6 +46,13 @@ public class CreateNewsHandler : IRequestHandler<CreateNewsRequest, CreateNewsRe
 
         _db.News.Add(news);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Berita '{news.Title}' berhasil ditambahkan",
+            "create",
+            "news",
+            cancellationToken);
 
         return new CreateNewsResponse
         {

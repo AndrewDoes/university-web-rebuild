@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Lecturers;
 using STTB.Contracts.ResponseModels.Lecturers;
 using STTB.Entities;
@@ -26,6 +27,13 @@ public class CreateLecturerHandler : IRequestHandler<CreateLecturerRequest, Crea
 
         _db.Lecturers.Add(lecturer);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Dosen '{lecturer.Name}' berhasil ditambahkan",
+            "create",
+            "lecturers",
+            cancellationToken);
 
         return new CreateLecturerResponse
         {

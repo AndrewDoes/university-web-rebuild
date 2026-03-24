@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.NewsCategories;
 using STTB.Contracts.ResponseModels.NewsCategories;
 using STTB.Entities;
@@ -29,6 +30,13 @@ public class UpdateNewsCategoryHandler : IRequestHandler<UpdateNewsCategoryReque
         category.Slug = GenerateSlug(request.Name);
 
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Kategori '{category.Name}' berhasil diperbarui",
+            "update",
+            "news-categories",
+            cancellationToken);
 
         return new UpdateNewsCategoryResponse
         {

@@ -31,4 +31,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Lecturer> Lecturers { get; set; }
 
     public DbSet<UserAccount> UserAccounts { get; set; }
+
+    public DbSet<Notification> Notifications { get; set; }
 }

@@ -151,6 +151,14 @@ CREATE TABLE contact_messages (
         DEFAULT 'new'
 );
 
+CREATE TABLE notifications (
+    id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    message NVARCHAR(255) NOT NULL,
+    type VARCHAR(20), -- create, update, delete
+    module VARCHAR(50), -- news, events, testimonial, dll
+    created_at DATETIME DEFAULT GETDATE()
+);
+
 -- isi data
 -- news categories
 INSERT INTO NewsCategories (name, slug) VALUES

@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
 using STTB.Entities;
@@ -31,6 +32,13 @@ public class UpdateNewsHandler : IRequestHandler<UpdateNewsRequest, UpdateNewsRe
         news.Tags = request.Tags;
 
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Berita '{news.Title}' berhasil diperbarui",
+            "update",
+            "news",
+            cancellationToken);
 
         return new UpdateNewsResponse
         {

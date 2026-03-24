@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Testimonials;
 using STTB.Contracts.ResponseModels.Testimonials;
 using STTB.Entities;
@@ -18,8 +19,17 @@ public class DeleteTestimonialHandler : IRequestHandler<DeleteTestimonialRequest
         if (testimonial is null)
             return new DeleteTestimonialResponse { Success = false, Message = "Testimonial not found." };
 
+        var testimonialName = testimonial.Name;
+
         _db.Testimonials.Remove(testimonial);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Testimoni '{testimonialName}' berhasil dihapus",
+            "delete",
+            "testimonial",
+            cancellationToken);
 
         return new DeleteTestimonialResponse { Success = true, Message = "Testimonial deleted successfully." };
     }

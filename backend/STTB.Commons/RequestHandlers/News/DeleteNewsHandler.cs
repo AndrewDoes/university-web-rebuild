@@ -1,4 +1,5 @@
 using MediatR;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.News;
 using STTB.Contracts.ResponseModels.News;
 using STTB.Entities;
@@ -20,6 +21,13 @@ public class DeleteNewsHandler : IRequestHandler<DeleteNewsRequest, DeleteNewsRe
 
         _db.News.Remove(news);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Berita '{news.Title}' berhasil dihapus",
+            "delete",
+            "news",
+            cancellationToken);
 
         return new DeleteNewsResponse { Success = true, Message = "News deleted successfully." };
     }

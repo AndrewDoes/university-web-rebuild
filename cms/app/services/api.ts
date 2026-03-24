@@ -93,6 +93,14 @@ export interface GetNewsCategoriesResponse {
     categories: NewsCategoryDto[];
 }
 
+export interface NotificationDto {
+    id: string;
+    message: string;
+    type?: string;
+    module?: string;
+    createdAt: string;
+}
+
 export function getStoredAuth() {
     if (typeof window === "undefined") {
         return null;
@@ -269,5 +277,9 @@ export const api = {
         delete: (id: string) => apiRequest<{ success: boolean; message: string }>(`/lecturers/${id}`, {
             method: 'DELETE'
         }),
+    },
+
+    notifications: {
+        getAll: (limit: number = 10) => apiRequest<NotificationDto[]>(`/notifications?limit=${limit}`),
     }
 };

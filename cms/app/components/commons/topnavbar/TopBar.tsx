@@ -12,7 +12,7 @@ import {
     Minimize
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { getStoredAuth } from '@/app/services/api';
+import { getStoredAuth, api, NotificationDto } from '@/app/services/api';
 
 interface TopBarProps {
     title: string;
@@ -31,6 +31,7 @@ const SEARCH_ITEMS = [
 const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
     const router = useRouter();
     const searchRef = useRef<HTMLDivElement | null>(null);
+    const notificationRef = useRef<HTMLDivElement | null>(null);
 
     const [adminName, setAdminName] = useState('Administrator');
     const [adminRole, setAdminRole] = useState('Admin');
@@ -39,6 +40,10 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [showSearchResults, setShowSearchResults] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
+
+    const [notifications, setNotifications] = useState<NotificationDto[]>([]);
+    const [notificationsLoading, setNotificationsLoading] = useState(false);
 
     useEffect(() => {
         const auth = getStoredAuth();
@@ -81,6 +86,10 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setShowSearchResults(false);
             }
+
+            if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+                setShowNotifications(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -101,6 +110,19 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
             item.label.toLowerCase().includes(query)
         );
     }, [searchQuery]);
+
+    const fetchNotifications = async () => {
+        try {
+            setNotificationsLoading(true);
+            const data = await api.notifications.getAll(10);
+            setNotifications(Array.isArray(data) ? data : []);
+        } catch (error) {
+            console.error('Failed to fetch notifications:', error);
+            setNotifications([]);
+        } finally {
+            setNotificationsLoading(false);
+        }
+    };
 
     const handleThemeToggle = () => {
         const nextDark = !isDark;
@@ -131,6 +153,32 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
         setSearchQuery('');
         setShowSearchResults(false);
         router.push(href);
+    };
+
+    const handleNotificationToggle = async () => {
+        const nextState = !showNotifications;
+        setShowNotifications(nextState);
+
+        if (nextState) {
+            await fetchNotifications();
+        }
+    };
+
+    const formatNotificationTime = (value?: string) => {
+        if (!value) {
+            return '';
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+            return '';
+        }
+
+        return date.toLocaleString('id-ID', {
+            dateStyle: 'short',
+            timeStyle: 'short',
+        });
     };
 
     return (
@@ -232,13 +280,53 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumb }) => {
                     </button>
                 </div>
 
-                <button
-                    type="button"
-                    className="relative p-2.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all"
-                >
-                    <Bell size={18} />
-                    <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger border-2 border-background rounded-full" />
-                </button>
+                <div ref={notificationRef} className="relative">
+                    <button
+                        type="button"
+                        onClick={handleNotificationToggle}
+                        className="relative p-2.5 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all"
+                        title="Notifications"
+                    >
+                        <Bell size={18} />
+                        {notifications.length > 0 && (
+                            <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-danger border-2 border-background rounded-full" />
+                        )}
+                    </button>
+
+                    {showNotifications && (
+                        <div className="absolute right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden">
+                            <div className="px-4 py-3 border-b border-border">
+                                <p className="text-xs font-bold uppercase tracking-widest text-foreground">
+                                    Notifications
+                                </p>
+                            </div>
+
+                            {notificationsLoading ? (
+                                <div className="px-4 py-6 text-sm text-muted-foreground text-center">
+                                    Memuat notifikasi...
+                                </div>
+                            ) : notifications.length === 0 ? (
+                                <div className="px-4 py-6 text-sm text-muted-foreground text-center">
+                                    Belum ada notifikasi
+                                </div>
+                            ) : (
+                                <div className="max-h-80 overflow-y-auto">
+                                    {notifications.map((item) => (
+                                        <div
+                                            key={item.id}
+                                            className="px-4 py-3 text-sm text-foreground border-b border-border last:border-b-0 hover:bg-muted/50 transition-colors"
+                                        >
+                                            <div>{item.message}</div>
+                                            <div className="mt-1 text-[11px] text-muted-foreground">
+                                                {item.module} • {formatNotificationTime(item.createdAt)}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
 
                 <button
                     type="button"

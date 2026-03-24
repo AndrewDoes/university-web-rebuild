@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Events;
 using STTB.Contracts.ResponseModels.Events;
 using STTB.Entities;
@@ -41,6 +42,13 @@ public class UpdateEventHandler : IRequestHandler<UpdateEventRequest, UpdateEven
         ev.RegistrationDeadline = request.RegistrationDeadline;
 
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Event '{ev.Title}' berhasil diperbarui",
+            "update",
+            "events",
+            cancellationToken);
 
         return new UpdateEventResponse
         {

@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using STTB.Commons.Helpers;
 using STTB.Contracts.RequestModels.Events;
 using STTB.Contracts.ResponseModels.Events;
 using STTB.Entities;
@@ -44,6 +45,13 @@ public class CreateEventHandler : IRequestHandler<CreateEventRequest, CreateEven
 
         _db.Events.Add(ev);
         await _db.SaveChangesAsync(cancellationToken);
+
+        await NotificationHelper.AddNotificationAsync(
+            _db,
+            $"Event '{ev.Title}' berhasil ditambahkan",
+            "create",
+            "events",
+            cancellationToken);
 
         return new CreateEventResponse
         {
