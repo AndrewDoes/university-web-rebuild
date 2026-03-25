@@ -29,7 +29,7 @@ const DewanDosenPage: React.FC = () => {
                     <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[140%] bg-secondary rounded-full blur-[120px] mix-blend-overlay"></div>
                     <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[120%] bg-primary-foreground rounded-full blur-[100px] mix-blend-overlay"></div>
                 </div>
-                
+
                 <div className="container mx-auto px-6 relative z-10 text-center md:text-left">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
                         <div className="space-y-6 max-w-3xl">
@@ -55,7 +55,7 @@ const DewanDosenPage: React.FC = () => {
                         <h2 className="text-3xl font-black text-primary font-serif uppercase tracking-tighter italic">Pengajar Kami</h2>
                         <p className="text-muted-foreground text-sm font-medium">Temui para dosen yang akan membimbing perjalanan akademis Anda.</p>
                     </div>
-                    
+
                     <div className="flex gap-4">
                         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-muted px-4 py-2 rounded-sm border border-border">
                             <GraduationCap size={14} className="text-secondary" /> {lecturers.length} Dosen Aktif
@@ -74,8 +74,8 @@ const DewanDosenPage: React.FC = () => {
                             <div key={lecturer.id} className="group bg-card border border-border rounded-sm overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
                                 <div className="aspect-[4/5] w-full overflow-hidden bg-muted relative">
                                     <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-                                    <img 
-                                        src={lecturer.photo || "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1587&auto=format&fit=crop"} 
+                                    <img
+                                        src={"https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"}
                                         alt={lecturer.name}
                                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
                                     />

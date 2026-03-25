@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { ChevronRight, PlayCircle, Award } from 'lucide-react';
+import { ChevronRight, PlayCircle, Award, Cross } from 'lucide-react';
 
 const Hero: React.FC = () => {
     return (
@@ -20,17 +20,21 @@ const Hero: React.FC = () => {
                 <div className="max-w-4xl">
 
                     <div className="inline-flex items-center space-x-3 bg-secondary/10 border border-secondary/30 backdrop-blur-md px-4 py-2 rounded-full mb-8">
-                        <Award size={18} className="text-secondary" />
-                        <span className="text-secondary text-[11px] font-bold uppercase tracking-[0.25em]">Excellentia In Christo</span>
+                        <Cross size={18} className="text-secondary" />
+                        <span className="text-secondary text-[11px] font-bold uppercase tracking-[0.25em]">Sola Scriptura</span>
                     </div>
 
 
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-[1.05] mb-8 font-serif tracking-tighter">
-                        Membangun <span className="text-secondary italic">Pemimpin</span> yang Setia.
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-[1.05] mb-4 font-serif tracking-tighter">
+                        <span className="text-secondary italic">Sekolah Tinggi Teologi Bandung.</span>
                     </h1>
 
-                    <p className="text-lg md:text-2xl text-primary-foreground/80 leading-relaxed mb-12 max-w-2xl font-light">
-                        Sekolah Tinggi Teologi Bandung berkomitmen pada pendidikan teologi yang berpusat pada Alkitab, bermutu akademis, dan relevan dengan perubahan zaman.
+                    <p className="text-2xl md:text-3xl lg:text-4xl text-primary-foreground/80 leading-relaxed mb-12 max-w-2xl font-bold">
+                        Bandung Theological Seminary
+                    </p>
+
+                    <p className="text-lg md:text-xl lg:text-2xl text-primary-foreground/80 leading-relaxed mb-12 max-w-2xl font-light">
+                        Menghasilkan pastor-scholar yang berdampak dalam konteks pelayanan urban
                     </p>
 
 
@@ -53,7 +57,7 @@ const Hero: React.FC = () => {
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-10 border-t border-primary-foreground/10">
+                    {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-10 border-t border-primary-foreground/10">
                         <div className="space-y-1">
                             <p className="text-secondary text-2xl font-bold font-serif">A</p>
                             <p className="text-primary-foreground/50 text-[10px] uppercase font-bold tracking-widest">Akreditasi BAN-PT</p>
@@ -70,7 +74,7 @@ const Hero: React.FC = () => {
                             <p className="text-secondary text-2xl font-bold font-serif">ATESEA</p>
                             <p className="text-primary-foreground/50 text-[10px] uppercase font-bold tracking-widest">Regional Member</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

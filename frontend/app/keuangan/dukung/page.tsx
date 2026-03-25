@@ -65,9 +65,9 @@ const DukungSTTBPage: React.FC = () => {
                     <div className="absolute -top-[20%] -right-[10%] w-[70%] h-[140%] bg-secondary rounded-full blur-[120px] mix-blend-overlay"></div>
                     <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[120%] bg-primary-foreground rounded-full blur-[100px] mix-blend-overlay"></div>
                 </div>
-                
+
                 <div className="container mx-auto px-6 relative z-10 text-center">
-                    <div className="max-w-4xl mx-auto space-y-6">
+                    <div className="max-w-4xl mx-auto space-y-6 pt-20">
                         <div className="inline-flex items-center space-x-3 bg-secondary/20 border border-secondary/30 px-4 py-1.5 rounded-full">
                             <Heart size={14} className="text-secondary" />
                             <span className="text-secondary text-[10px] font-bold uppercase tracking-[0.3em]">Partnership & Legacy</span>
